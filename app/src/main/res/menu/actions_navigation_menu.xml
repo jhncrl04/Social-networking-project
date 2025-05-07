@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_like"
+        android:icon="@drawable/heart_vector"
+        android:iconTint="@color/white"
+        android:title="Like" />
+    <item
+        android:id="@+id/navigation_comment"
+        android:icon="@drawable/comment_vector"
+        android:iconTint="@color/white"
+        android:title="Comment" />
+    <item
+        android:id="@+id/navigation_share"
+        android:icon="@drawable/share_vector"
+        android:iconTint="@color/white"
+        android:title="Comment" />
+</menu>

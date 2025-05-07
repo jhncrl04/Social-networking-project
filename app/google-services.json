@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1055649190069",
+    "project_id": "fakebook-9081e",
+    "storage_bucket": "fakebook-9081e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055649190069:android:25a1fbc55b310caae5eefc",
+        "android_client_info": {
+          "package_name": "com.example.fakebook"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoRKxHE_beoVL_SzF1bEihL-F-KEfnwcs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
