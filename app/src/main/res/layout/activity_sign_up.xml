@@ -9,16 +9,16 @@
 
     <LinearLayout
         android:id="@+id/title_layout"
-        android:layout_width="407dp"
-        android:layout_height="131dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center|top"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.087">
+        app:layout_constraintVertical_bias="0.25">
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,8 +48,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/firstname_layout"
-        android:layout_width="411dp"
-        android:layout_height="81dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,15 +58,17 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signup_firstname"
-            android:layout_width="350dp"
-            android:layout_height="65dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="28dp"
             android:hint="First Name"
-            android:background="@drawable/rounded_textfields"/>
+            style="@style/CustomTextInputEditTextStyle"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/lastname_layout"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:gravity="center"
@@ -76,16 +78,18 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signup_lastname"
-            android:layout_width="350dp"
-            android:layout_height="65dp"
-            android:background="@drawable/rounded_textfields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="28dp"
+            style="@style/CustomTextInputEditTextStyle"
             android:hint="Last Name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_layout"
-        android:layout_width="409dp"
-        android:layout_height="73dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,33 +99,41 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signup_email"
-            android:layout_width="350dp"
-            android:layout_height="65dp"
-            android:background="@drawable/rounded_textfields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="28dp"
+            style="@style/CustomTextInputEditTextStyle"
             android:hint="E-Mail" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/phone_layout"
-        android:layout_width="413dp"
-        android:layout_height="71dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signup_phone"
-            android:layout_width="350dp"
-            android:layout_height="65dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="28dp"
             android:hint="Phone"
-            tools:background="@drawable/rounded_textfields" />
+            style="@style/CustomTextInputEditTextStyle" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/signup_next"
-        android:layout_width="350dp"
-        android:layout_height="65dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/rounded_button"
         android:text="Next"
@@ -132,8 +144,10 @@
 
     <Button
         android:id="@+id/back_to_login"
-        android:layout_width="182dp"
-        android:layout_height="63dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
         android:layout_marginTop="8dp"
         android:background="#00FFFFFF"
         android:text="I have an account"

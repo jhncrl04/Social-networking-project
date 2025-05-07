@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:id="@+id/title_layout"
-        android:layout_width="407dp"
+        android:layout_width="match_parent"
         android:layout_height="131dp"
         android:gravity="center|top"
         android:orientation="vertical"
@@ -48,7 +48,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/signup_username_layout"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
         android:gravity="center"
@@ -58,16 +58,21 @@
         app:layout_constraintTop_toBottomOf="@+id/title_layout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="350dp"
+            android:id="@+id/signup_username"
+            android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:background="@drawable/rounded_textfields"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="28dp"
+            style="@style/CustomTextInputEditTextStyle"
             android:hint="Username" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/signup_next2"
-        android:layout_width="350dp"
+        android:id="@+id/signup_next"
+        android:layout_width="match_parent"
         android:layout_height="65dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_button"
         android:text="Next"
@@ -77,14 +82,16 @@
         app:layout_constraintTop_toBottomOf="@+id/signup_username_layout" />
 
     <Button
-        android:id="@+id/back2"
-        android:layout_width="96dp"
-        android:layout_height="67dp"
+        android:id="@+id/back_to_login"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginEnd="128dp"
         android:layout_marginTop="12dp"
         android:background="#00FFFFFF"
         android:text="Back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_next2" />
+        app:layout_constraintTop_toBottomOf="@+id/signup_next" />
 </androidx.constraintlayout.widget.ConstraintLayout>

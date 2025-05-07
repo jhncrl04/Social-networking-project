@@ -23,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists localUserTable");
     }
 
-    public Boolean insertUserData(String email, String firstName, String lastName, String phone){
+    public Boolean insertUserData(String firstName, String lastName, String email, String phone){
         SQLiteDatabase DB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("id", 1);
@@ -49,7 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = DB.rawQuery("SELECT * FROM localUserTable where id = ?", new String[]{"1"});
 
         if(cursor.getCount() > 0){
-            long result = DB.update("localUserTable", contentValues, "where id = ?", new String[]{"1"});
+            long result = DB.update("localUserTable", contentValues, "id = ?", new String[]{"1"});
 
             if(result == -1){
                 return false;
@@ -69,7 +69,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = DB.rawQuery("SELECT * FROM localUserTable where id = ?", new String[]{"1"});
 
         if(cursor.getCount() > 0){
-            long result = DB.update("localUserTable", contentValues, "where id = ?", new String[]{"1"});
+            long result = DB.update("localUserTable", contentValues, "id = ?", new String[]{"1"});
 
             if(result == -1){
                 return false;
@@ -81,12 +81,19 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public Cursor getData(){
+            SQLiteDatabase DB = this.getWritableDatabase();
+            Cursor cursor = DB.rawQuery("SELECT (firtName, lastName, email, phone) FROM localUserTable", null);
+
+            return cursor;
+    }
+
     public Boolean deleteData(){
         SQLiteDatabase DB = this.getWritableDatabase();
         Cursor cursor = DB.rawQuery("SELECT * FROM localUserTable where id = ?", new String[]{"1"});
 
-        if(cursor.getCount() == -1){
-            long result = DB.delete("localUserTable", "where id = ? ", new String[]{"1"});
+        if(cursor.getCount() > 0){
+            long result = DB.delete("localUserTable", "id = ? ", new String[]{"1"});
 
             if(result == -1){
                 return false;

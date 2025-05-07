@@ -1,5 +1,7 @@
 package com.example.fakebook;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -45,16 +48,30 @@ public class SignUp extends AppCompatActivity {
             public void onClick(View v){
                 String firstNameTxt = etFirstName.getText().toString();
                 String lastNameTxt = etLastName.getText().toString();
-                String emailTxt = etLastName.getText().toString();
+                String emailTxt = etEmail.getText().toString();
                 String phoneTxt = etPhone.getText().toString();
 
-                Boolean checkInsertInitialData = DB.insertUserData(firstNameTxt, lastNameTxt, emailTxt, phoneTxt);
+                if(!firstNameTxt.isBlank() || !lastNameTxt.isBlank() || !emailTxt.isBlank() || !phoneTxt.isBlank()){
+                    Boolean checkInsertInitialData = DB.insertUserData(firstNameTxt, lastNameTxt, emailTxt, phoneTxt);
 
-                if (!checkInsertInitialData) {
-                    Toast.makeText(SignUp.this, "Think of an error message", Toast.LENGTH_SHORT).show();
+                    if (!checkInsertInitialData) {
+                        Toast.makeText(SignUp.this, "Internal Error! Please try again later.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Intent intent = new Intent(SignUp.this, SignUpUsername.class);
+                        startActivity(intent);
+                    }
                 }else{
-                    setContentView(R.layout.activity_sign_up_username);
+                    Toast.makeText(SignUp.this, "Please complete the form before you continue", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        buttonBackToLogin.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(SignUp.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
