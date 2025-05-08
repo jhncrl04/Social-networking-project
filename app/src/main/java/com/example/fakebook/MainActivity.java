@@ -3,6 +3,7 @@ package com.example.fakebook;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,11 +18,12 @@ import androidx.core.graphics.Insets;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     Button buttonSignUp, buttonLogin;
     EditText etEmail, etPassword;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity{
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             Intent intent = new Intent(MainActivity.this, Feed.class);
             startActivity(intent);
             finish();
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity{
         });
 
         String caller = getIntent().getStringExtra("signUpStatus");
-        if(caller != null && caller.equals("completed")){
+        if (caller != null && caller.equals("completed")) {
             Toast.makeText(MainActivity.this, "Sign up completed.", Toast.LENGTH_SHORT).show();
         }
 
@@ -71,25 +73,29 @@ public class MainActivity extends AppCompatActivity{
                 String email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
 
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    FirebaseUser user = mAuth.getCurrentUser();
+                if (!email.isBlank() && !password.isBlank()) {
+                    mAuth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        FirebaseUser user = mAuth.getCurrentUser();
 
-                                    Intent intent = new Intent(MainActivity.this, Feed.class);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(MainActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                    Log.e("FIREBASE_LOGIN", "Login error", task.getException());
+                                        Intent intent = new Intent(MainActivity.this, Feed.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Toast.makeText(MainActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        Log.e("FIREBASE_LOGIN", "Login error", task.getException());
 
+                                    }
                                 }
-                            }
-                        });
+                            });
+                }else{
+                    Toast.makeText(MainActivity.this, "Log in credentials required.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
