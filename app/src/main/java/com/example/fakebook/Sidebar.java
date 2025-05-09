@@ -2,6 +2,7 @@ package com.example.fakebook;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -13,11 +14,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Sidebar extends AppCompatActivity {
 
-    Button buttonLogout;
+    Button buttonLogout, buttonUsername;
     FirebaseAuth firebaseAuth;
+    FirebaseFirestore firestoreDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,21 @@ public class Sidebar extends AppCompatActivity {
 
         firebaseAuth = firebaseAuth.getInstance();
         buttonLogout = findViewById(R.id.logout_button);
+        buttonUsername = findViewById(R.id.user_name_button);
+        firestoreDB = FirebaseFirestore.getInstance();
+
+        firestoreDB.collection("USERS")
+                .document(firebaseAuth.getCurrentUser().getUid())
+                .get()
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists()) {
+                        String firstName = doc.getString("firstName");
+                        String lastName = doc.getString("lastName");
+                        String fullName = firstName + " " + lastName;
+
+                        buttonUsername.setText(fullName);
+                    }
+                });
 
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override

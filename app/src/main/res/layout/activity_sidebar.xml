@@ -33,10 +33,10 @@
 
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/user_name_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textAlignment="textStart"
-                android:text="Profile Name"
                 android:textAllCaps="false"
                 android:background="@drawable/transparent_bg"
                 android:textColor="#818181"

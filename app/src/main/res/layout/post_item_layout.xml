@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!--  Post author container  -->
+    <LinearLayout
+        android:id="@+id/author_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rounded_profile"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/keurt" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|start"
+            android:orientation="vertical">
+
+            <!--  Name & Date container  -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center|start"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/post_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/transparent_bg"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/post_date_creation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:textColor="#818181"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!--  Post Content  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--  Post Content Text -->
+                <TextView
+                    android:id="@+id/post_text_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:justificationMode="inter_word"
+                    android:textAlignment="textStart"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!--  Post Image Container  -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:background="#818181">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/yes_king" />
+
+                    </LinearLayout>
+
+                    <!--  Post BUttons  -->
+                    <LinearLayout
+                        android:id="@+id/actions_container2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="#00313131"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/like_button"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/heart_vector"
+                            android:contentDescription="Like"
+                            android:drawableTint="@color/white" />
+
+                        <Button
+                            android:id="@+id/comment_button"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
+                            android:layout_marginStart="20dp"
+                            android:background="@drawable/comment_vector"
+                            android:contentDescription="Comment"
+                            android:drawableTint="@color/white" />
+
+                        <Button
+                            android:id="@+id/share_button"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="20dp"
+                            android:background="@drawable/share_vector"
+                            android:contentDescription="Share"
+                            android:drawableTint="@color/white" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
