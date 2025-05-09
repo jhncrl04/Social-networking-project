@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -27,11 +30,13 @@ import java.util.List;
 
 public class Feed extends AppCompatActivity {
 
-    Button buttonCreatePost, buttonProfile;
+    Button buttonCreatePost;
+    ImageButton buttonProfile;
     FirebaseFirestore firestoreDB;
     RecyclerView postsRecyclerView;
     PostAdapter adapter;
     List<Post> postList = new ArrayList<>();
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,7 @@ public class Feed extends AppCompatActivity {
 
         fetchPost();
 
+        progressBar = findViewById(R.id.feed_progress_bar);
         buttonCreatePost = findViewById(R.id.create_post_button);
         buttonProfile = findViewById(R.id.profile_button);
 
@@ -81,10 +87,18 @@ public class Feed extends AppCompatActivity {
     }
 
     private void fetchPost() {
-        firestoreDB.collection("POST COLLECTION").get().addOnSuccessListener(queryDocumentSnapshots -> {
+        firestoreDB.collection("POST COLLECTION").orderBy("dateCreated", Query.Direction.DESCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
+            int totalPosts = queryDocumentSnapshots.size();
+
+            if (totalPosts == 0) {
+                progressBar.setVisibility(View.GONE);
+                return;
+            }
+
+            final int[] loadedPosts = {0};
+
             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                 Post post = documentSnapshot.toObject(Post.class);
-
                 String posterId = documentSnapshot.getString("userID");
 
                 firestoreDB.collection("USERS")
@@ -97,12 +111,28 @@ public class Feed extends AppCompatActivity {
                                 String fullName = firstName + " " + lastName;
 
                                 post.setAuthorName(fullName);
-                                adapter.notifyDataSetChanged();
+                            }
+
+                            postList.add(post);
+
+                            adapter.notifyDataSetChanged();
+
+                            loadedPosts[0]++;
+                            if (loadedPosts[0] == totalPosts) {
+                                // All posts (and their authors) are loaded
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        })
+                        .addOnFailureListener(e -> {
+                            loadedPosts[0]++;
+                            if (loadedPosts[0] == totalPosts) {
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
-
-                postList.add(post);
             }
+        }).addOnFailureListener(e -> {
+            // Handle error and hide progress bar
+            progressBar.setVisibility(View.GONE);
         });
     }
 }

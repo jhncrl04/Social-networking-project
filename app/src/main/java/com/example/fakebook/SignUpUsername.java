@@ -57,5 +57,12 @@ public class SignUpUsername extends AppCompatActivity {
                 }
             }
         });
+
+        buttonBackToLogin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                finish();
+            }
+        });
     }
 }

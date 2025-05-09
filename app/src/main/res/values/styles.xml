@@ -4,13 +4,14 @@
     <!--   Reusable text styles -->
     <style name="CustomTextInputLayoutStyle">
         <item name="android:background">@drawable/rounded_textfields</item>
+        <item name="android:textColorHint">#D4D4D4</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
     <!--   Reusable text field styles -->
     <style name="CustomTextInputEditTextStyle">
         <item name="android:background">@drawable/rounded_textfields</item>
-        <item name="android:textColorHint">#FAFAFA</item>
+        <item name="android:textColorHint">#D4D4D4</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
 

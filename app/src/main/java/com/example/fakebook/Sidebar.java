@@ -1,6 +1,8 @@
 package com.example.fakebook;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +22,8 @@ public class Sidebar extends AppCompatActivity {
 
     Button buttonLogout, buttonUsername;
     FirebaseAuth firebaseAuth;
-    FirebaseFirestore firestoreDB;
+
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,22 +37,15 @@ public class Sidebar extends AppCompatActivity {
         });
 
         firebaseAuth = firebaseAuth.getInstance();
+
+        sharedPreferences = getSharedPreferences("USER_SESSION", Context.MODE_PRIVATE);
+
         buttonLogout = findViewById(R.id.logout_button);
         buttonUsername = findViewById(R.id.user_name_button);
-        firestoreDB = FirebaseFirestore.getInstance();
 
-        firestoreDB.collection("USERS")
-                .document(firebaseAuth.getCurrentUser().getUid())
-                .get()
-                .addOnSuccessListener(doc -> {
-                    if (doc.exists()) {
-                        String firstName = doc.getString("firstName");
-                        String lastName = doc.getString("lastName");
-                        String fullName = firstName + " " + lastName;
+        Log.d("SESSION", "onCreate: " + sharedPreferences.getString("SESSION_FIRSTNAME", null));
 
-                        buttonUsername.setText(fullName);
-                    }
-                });
+        buttonUsername.setText(sharedPreferences.getString("SESSION_FULLNAME", null));
 
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override

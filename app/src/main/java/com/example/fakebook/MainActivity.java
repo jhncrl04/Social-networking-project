@@ -1,6 +1,8 @@
 package com.example.fakebook;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -22,6 +24,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +32,13 @@ public class MainActivity extends AppCompatActivity {
     EditText etEmail, etPassword;
     DBHelper DB;
 
+    String firstName, lastName, fullName, username, phoneNumber;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     private FirebaseAuth mAuth;
+    private FirebaseFirestore firestoreDB;
 
     @Override
     public void onStart() {
@@ -82,9 +91,40 @@ public class MainActivity extends AppCompatActivity {
                                         // Sign in success, update UI with the signed-in user's information
                                         FirebaseUser user = mAuth.getCurrentUser();
 
-                                        Intent intent = new Intent(MainActivity.this, Feed.class);
-                                        startActivity(intent);
-                                        finish();
+                                        firestoreDB = FirebaseFirestore.getInstance();
+
+                                        firestoreDB.collection("USERS")
+                                                .document(user.getUid())
+                                                .get()
+                                                .addOnSuccessListener(doc -> {
+                                                    if (doc.exists()) {
+                                                        firstName = doc.getString("firstName");
+                                                        lastName = doc.getString("lastName");
+                                                        fullName = firstName + " " + lastName;
+                                                        username = doc.getString("username");
+                                                        phoneNumber = doc.getString("phone");
+
+                                                        // getting the data which is stored in shared preferences.
+                                                        sharedPreferences = getSharedPreferences("USER_SESSION", Context.MODE_PRIVATE);
+                                                        editor = sharedPreferences.edit();
+
+                                                        editor.putString("SESSION_EMAIL", email);
+                                                        editor.putString("SESSION_FIRSTNAME", firstName);
+                                                        editor.putString("SESSION_LASTNAME", lastName);
+                                                        editor.putString("SESSION_FULLNAME", fullName);
+                                                        editor.putString("SESSION_USERNAME", username);
+                                                        editor.putString("SESSION_PHONE_NUMBER", phoneNumber);
+                                                        editor.putString("SESSION_UID", user.getUid());
+
+                                                        editor.apply();
+
+                                                        Log.d("SESSION", "onComplete: " + sharedPreferences.getString("SESSION_FULLNAME", null));
+
+                                                        Intent intent = new Intent(MainActivity.this, Feed.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
+                                                });
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Toast.makeText(MainActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -93,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                }else{
+                } else {
                     Toast.makeText(MainActivity.this, "Log in credentials required.", Toast.LENGTH_SHORT).show();
                 }
             }

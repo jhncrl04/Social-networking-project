@@ -30,7 +30,7 @@ import java.util.Map;
 public class SignUpPassword extends AppCompatActivity {
 
     EditText etPassword, etConfirmPassword;
-    Button buttonCompleteSignUp;
+    Button buttonCompleteSignUp, buttonBack;
 
     DBHelper DB;
 
@@ -60,6 +60,7 @@ public class SignUpPassword extends AppCompatActivity {
         etPassword = findViewById(R.id.signup_password);
         etConfirmPassword = findViewById(R.id.signup_confirm_password);
         buttonCompleteSignUp = findViewById(R.id.signup_complete_signup);
+        buttonBack = findViewById(R.id.back_button);
 
         DB = new DBHelper(this);
         buttonCompleteSignUp.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +121,13 @@ public class SignUpPassword extends AppCompatActivity {
                         Toast.makeText(SignUpPassword.this, "Password don't match.", Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });
+
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
