@@ -118,8 +118,6 @@ public class MainActivity extends AppCompatActivity {
 
                                                         editor.apply();
 
-                                                        Log.d("SESSION", "onComplete: " + sharedPreferences.getString("SESSION_FULLNAME", null));
-
                                                         Intent intent = new Intent(MainActivity.this, Feed.class);
                                                         startActivity(intent);
                                                         finish();

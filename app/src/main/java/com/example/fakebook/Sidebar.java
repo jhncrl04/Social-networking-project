@@ -20,7 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Sidebar extends AppCompatActivity {
 
-    Button buttonLogout, buttonUsername;
+    Button buttonLogout, buttonUsername, buttonSetting;
     FirebaseAuth firebaseAuth;
 
     SharedPreferences sharedPreferences;
@@ -42,15 +42,29 @@ public class Sidebar extends AppCompatActivity {
 
         buttonLogout = findViewById(R.id.logout_button);
         buttonUsername = findViewById(R.id.user_name_button);
+        buttonSetting = findViewById(R.id.settings_button);
 
         Log.d("SESSION", "onCreate: " + sharedPreferences.getString("SESSION_FIRSTNAME", null));
 
         buttonUsername.setText(sharedPreferences.getString("SESSION_FULLNAME", null));
 
+        buttonSetting.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Sidebar.this, Settings.class);
+                startActivity(intent);
+            }
+        }));
+
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 firebaseAuth.signOut();
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+                finish();
 
                 Intent intent = new Intent(Sidebar.this, MainActivity.class);
                 startActivity(intent);

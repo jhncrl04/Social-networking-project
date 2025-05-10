@@ -58,7 +58,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         Post post = postList.get(position);
 
         Date postCreationDate = post.getDateCreated();
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy hh:mm a");
         String formattedDate = sdf.format(postCreationDate);
         String postContent = post.getContent();
 

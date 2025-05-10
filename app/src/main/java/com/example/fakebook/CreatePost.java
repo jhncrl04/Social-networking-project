@@ -201,7 +201,7 @@ public class CreatePost extends AppCompatActivity {
 
                             ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-                            selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 3, baos);
+                            selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 7, baos);
                             byte[] imageBytes = baos.toByteArray();
                             imageBitmap = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
