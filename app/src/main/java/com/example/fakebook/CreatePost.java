@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.ImageWriter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,10 +43,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
@@ -186,6 +191,8 @@ public class CreatePost extends AppCompatActivity {
                         imageUrl = data.getData().toString();
                         Uri imageUri = data.getData();
                         Bitmap selectedImageBitmap;
+
+
                         try {
                             selectedImageBitmap
                                     = MediaStore.Images.Media.getBitmap(
@@ -193,7 +200,8 @@ public class CreatePost extends AppCompatActivity {
                                     imageUri);
 
                             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                            selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                            selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 3, baos);
                             byte[] imageBytes = baos.toByteArray();
                             imageBitmap = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
