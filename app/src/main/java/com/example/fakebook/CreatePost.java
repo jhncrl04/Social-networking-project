@@ -192,7 +192,6 @@ public class CreatePost extends AppCompatActivity {
                         Uri imageUri = data.getData();
                         Bitmap selectedImageBitmap;
 
-
                         try {
                             selectedImageBitmap
                                     = MediaStore.Images.Media.getBitmap(

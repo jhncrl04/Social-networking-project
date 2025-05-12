@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     EditText etEmail, etPassword;
     DBHelper DB;
 
-    String firstName, lastName, fullName, username, phoneNumber;
+    String firstName, lastName, fullName, username, phoneNumber, profile, bio;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -103,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
                                                         fullName = firstName + " " + lastName;
                                                         username = doc.getString("username");
                                                         phoneNumber = doc.getString("phone");
+                                                        profile = doc.getString("profilePic");
+                                                        bio = doc.getString("bio");
 
                                                         // getting the data which is stored in shared preferences.
                                                         sharedPreferences = getSharedPreferences("USER_SESSION", Context.MODE_PRIVATE);
@@ -114,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
                                                         editor.putString("SESSION_FULLNAME", fullName);
                                                         editor.putString("SESSION_USERNAME", username);
                                                         editor.putString("SESSION_PHONE_NUMBER", phoneNumber);
+                                                        editor.putString("SESSION_PROFILE", profile);
+                                                        editor.putString("SESSION_BIO", bio);
                                                         editor.putString("SESSION_UID", user.getUid());
 
                                                         editor.apply();

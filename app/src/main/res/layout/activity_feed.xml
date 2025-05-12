@@ -106,7 +106,9 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/bot_nav_border"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_body_separator" />
+        app:layout_constraintTop_toBottomOf="@id/header_body_separator">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <ProgressBar
         android:id="@+id/feed_progress_bar"
@@ -131,8 +133,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="16dp"
-        android:paddingHorizontal="0dp"
+        android:paddingVertical="5dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <View
@@ -142,9 +143,9 @@
 
         <ImageButton
             android:id="@+id/home_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:padding="5dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="15dp"
             android:background="@null"
             android:scaleType="centerCrop"
             android:src="@drawable/home_vector" />
@@ -156,9 +157,9 @@
 
         <ImageButton
             android:id="@+id/friends_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:padding="5dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="15dp"
             android:background="@null"
             android:scaleType="centerCrop"
             android:src="@drawable/friends_vector" />
@@ -170,9 +171,9 @@
 
         <ImageButton
             android:id="@+id/following_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:padding="5dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="15dp"
             android:background="@null"
             android:scaleType="centerCrop"
             android:src="@drawable/heart_vector" />
@@ -184,9 +185,9 @@
 
         <ImageButton
             android:id="@+id/notification_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:padding="5dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="15dp"
             android:background="@null"
             android:scaleType="centerCrop"
             android:src="@drawable/notification_vector" />
@@ -198,13 +199,12 @@
 
         <ImageButton
             android:id="@+id/profile_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:padding="5dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="15dp"
             android:background="@null"
             android:scaleType="centerCrop"
             android:src="@drawable/profile_vector" />
-
 
         <View
             android:layout_width="0dp"
@@ -212,5 +212,6 @@
             android:layout_weight=".5" />
 
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

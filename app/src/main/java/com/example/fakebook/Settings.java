@@ -35,8 +35,8 @@ public class Settings extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     ImageButton imageButtonBack;
     Button buttonUpdatePersonalInfo;
-    EditText etFirstName, etLastName, etUsername, etEmail, etPhone;
-    String firstName, lastName, username, email, phone;
+    EditText etFirstName, etLastName, etUsername, etEmail, etPhone, etBio;
+    String firstName, lastName, username, email, phone, bio;
     ProgressBar progressBar;
 
     FirebaseUser user;
@@ -60,12 +60,14 @@ public class Settings extends AppCompatActivity {
         etUsername = findViewById(R.id.username_edittext);
         etEmail = findViewById(R.id.email_edittext);
         etPhone = findViewById(R.id.phone_edittext);
+        etBio = findViewById(R.id.bio_edittext);
 
         etFirstName.setText(sharedPreferences.getString("SESSION_FIRSTNAME", null));
         etLastName.setText(sharedPreferences.getString("SESSION_LASTNAME", null));
         etUsername.setText(sharedPreferences.getString("SESSION_USERNAME", null));
         etEmail.setText(sharedPreferences.getString("SESSION_EMAIL", null));
         etPhone.setText(sharedPreferences.getString("SESSION_PHONE_NUMBER", null));
+        etBio.setText(sharedPreferences.getString("SESSION_BIO", null));
 
         progressBar = findViewById(R.id.settings_progress_bar);
 
@@ -73,7 +75,7 @@ public class Settings extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
 
-        buttonUpdatePersonalInfo = findViewById(R.id.update_personal_info);
+        buttonUpdatePersonalInfo = findViewById(R.id.update_personal_info_button);
         imageButtonBack = findViewById(R.id.back_button);
 
         imageButtonBack.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +93,7 @@ public class Settings extends AppCompatActivity {
                 username = etUsername.getText().toString();
                 email = etEmail.getText().toString();
                 phone = etPhone.getText().toString();
+                bio = etBio.getText().toString();
 
                 progressBar.setVisibility(VISIBLE);
 
@@ -100,6 +103,7 @@ public class Settings extends AppCompatActivity {
                     updatedUser.put("lastName", lastName);
                     updatedUser.put("username", username);
                     updatedUser.put("phone", phone);
+                    updatedUser.put("bio", bio);
 
                     firestoreDB.collection("USERS").document(uid).set(updatedUser).addOnSuccessListener(aVoid -> {
                                 // Save to SharedPreferences only if Firestore update was successful
@@ -108,6 +112,7 @@ public class Settings extends AppCompatActivity {
                                         .putString("SESSION_LASTNAME", lastName)
                                         .putString("SESSION_USERNAME", username)
                                         .putString("SESSION_PHONE_NUMBER", phone)
+                                        .putString("SESSION_BIO", bio)
                                         .apply();
 
                                 progressBar.setVisibility(GONE);
@@ -129,6 +134,8 @@ public class Settings extends AppCompatActivity {
         } else if (!Objects.equals(sharedPreferences.getString("SESSION_USERNAME", null), username)) {
             return true;
         } else if (!Objects.equals(sharedPreferences.getString("SESSION_PHONE", null), phone)) {
+            return true;
+        } else if (!Objects.equals(sharedPreferences.getString("SESSION_BIO", null), bio)) {
             return true;
         }
 

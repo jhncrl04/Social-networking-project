@@ -1,0 +1,6 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:autoMirrored="true" android:height="16dp" android:viewportHeight="16" android:viewportWidth="16" android:width="16dp">
+      
+    <path android:fillColor="#D8D8D8"
+        android:pathData="M1,2a1,1 0,0 1,1 -1h2a1,1 0,0 1,1 1v2a1,1 0,0 1,-1 1L2,5a1,1 0,0 1,-1 -1zM6,2a1,1 0,0 1,1 -1h2a1,1 0,0 1,1 1v2a1,1 0,0 1,-1 1L7,5a1,1 0,0 1,-1 -1zM11,2a1,1 0,0 1,1 -1h2a1,1 0,0 1,1 1v2a1,1 0,0 1,-1 1h-2a1,1 0,0 1,-1 -1zM1,7a1,1 0,0 1,1 -1h2a1,1 0,0 1,1 1v2a1,1 0,0 1,-1 1L2,10a1,1 0,0 1,-1 -1zM6,7a1,1 0,0 1,1 -1h2a1,1 0,0 1,1 1v2a1,1 0,0 1,-1 1L7,10a1,1 0,0 1,-1 -1zM11,7a1,1 0,0 1,1 -1h2a1,1 0,0 1,1 1v2a1,1 0,0 1,-1 1h-2a1,1 0,0 1,-1 -1zM1,12a1,1 0,0 1,1 -1h2a1,1 0,0 1,1 1v2a1,1 0,0 1,-1 1L2,15a1,1 0,0 1,-1 -1zM6,12a1,1 0,0 1,1 -1h2a1,1 0,0 1,1 1v2a1,1 0,0 1,-1 1L7,15a1,1 0,0 1,-1 -1zM11,12a1,1 0,0 1,1 -1h2a1,1 0,0 1,1 1v2a1,1 0,0 1,-1 1h-2a1,1 0,0 1,-1 -1z"/>
+    
+</vector>

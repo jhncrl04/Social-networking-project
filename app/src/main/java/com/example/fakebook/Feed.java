@@ -58,6 +58,9 @@ public class Feed extends AppCompatActivity {
 
         firestoreDB = firestoreDB.getInstance();
 
+        Intent intent = new Intent(Feed.this, Profile.class);
+        startActivity(intent);
+
         fetchPost();
 
         progressBar = findViewById(R.id.feed_progress_bar);
