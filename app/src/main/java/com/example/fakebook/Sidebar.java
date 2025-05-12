@@ -25,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class Sidebar extends AppCompatActivity {
 
     Button buttonLogout, buttonUsername, buttonSetting;
-    ImageButton ibProfile;
+    ImageButton ibProfile, ibHome;
     FirebaseAuth firebaseAuth;
     String profilePic = null;
 
@@ -64,6 +64,17 @@ public class Sidebar extends AppCompatActivity {
         Log.d("SESSION", "onCreate: " + sharedPreferences.getString("SESSION_FIRSTNAME", null));
 
         buttonUsername.setText(sharedPreferences.getString("SESSION_FULLNAME", null));
+
+        ibHome = findViewById(R.id.home_button);
+
+        ibHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Sidebar.this, Feed.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         buttonUsername.setOnClickListener(new View.OnClickListener() {
             @Override

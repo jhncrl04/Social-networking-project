@@ -63,7 +63,7 @@ public class Profile extends AppCompatActivity {
     ProgressBar progressBar;
 
     TextView tvName, tvFriendsCount, tvFollowersCount, tvBio;
-    ImageButton ibProfile, ibCoverPhoto;
+    ImageButton ibProfile, ibNavHome, ibNavProfile, ibCoverPhoto;
 
     SharedPreferences sharedPreferences;
 
@@ -114,6 +114,28 @@ public class Profile extends AppCompatActivity {
 
         tvName.setText(sharedPreferences.getString("SESSION_FULLNAME", null));
         tvBio.setText(sharedPreferences.getString("SESSION_BIO", null));
+
+        ibNavHome = findViewById(R.id.home_button);
+
+        ibNavHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Profile.this, Feed.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        ibNavProfile = findViewById(R.id.profile_button);
+
+        ibNavProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Profile.this, Sidebar.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         ibProfile.setOnClickListener(new View.OnClickListener() {
             @Override
