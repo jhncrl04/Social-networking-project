@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:background="#1b1b1b"
+    tools:context=".Chatbox">
+
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--  Chat header  -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chat_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@null"
+            android:padding="5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/baseline_arrow_back_ios_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/chat_profile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/rounded_profile"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/yes_king"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/chat_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/chat_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="John Carlo Servidad"
+                android:textColor="#fff"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/header_body_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#515151"
+        app:layout_constraintTop_toBottomOf="@+id/chat_header" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_body_separator"
+        app:layout_constraintBottom_toTopOf="@+id/chatbox_body_separator"
+        />
+
+    <View
+        android:id="@+id/chatbox_body_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#515151"
+        app:layout_constraintBottom_toTopOf="@+id/chatbox_container" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chatbox_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <ImageButton
+            android:id="@+id/send_image_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:src="@drawable/image_vector"
+            android:background="@null"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <EditText
+            android:id="@+id/new_message"
+            android:background="@drawable/rounded_textfields"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:layout_marginHorizontal="10dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp"
+            android:textSize="18sp"
+            android:hint="Message"
+            style="@style/CustomTextInputEditTextStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/send_image_button"
+            app:layout_constraintEnd_toStartOf="@id/send_message_button">
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/send_message_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:src="@drawable/message_vector"
+            android:background="@null"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -17,6 +17,13 @@
         android:theme="@style/Theme.FakeBook"
         tools:targetApi="31">
         <activity
+            android:name=".Chatbox"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" />
+        <activity
+            android:name=".Chat"
+            android:exported="false" />
+        <activity
             android:name=".Profile"
             android:exported="false" />
         <activity

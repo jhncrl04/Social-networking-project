@@ -31,7 +31,7 @@ import java.util.List;
 public class Feed extends AppCompatActivity {
 
     Button buttonCreatePost;
-    ImageButton buttonProfile;
+    ImageButton buttonProfile, ibChatButton;
     FirebaseFirestore firestoreDB;
     RecyclerView postsRecyclerView;
     PostAdapter adapter;
@@ -49,6 +49,8 @@ public class Feed extends AppCompatActivity {
             return insets;
         });
 
+        startActivity(new Intent(Feed.this, Chat.class));
+
         postsRecyclerView = findViewById(R.id.post_recycler_view);
         postsRecyclerView.setHasFixedSize(true);
         postsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,6 +65,8 @@ public class Feed extends AppCompatActivity {
         progressBar = findViewById(R.id.feed_progress_bar);
         buttonCreatePost = findViewById(R.id.create_post_button);
         buttonProfile = findViewById(R.id.profile_button);
+
+        ibChatButton = findViewById(R.id.chat_button);
 
         String caller = getIntent().getStringExtra("postCreationStatus");
         if (caller != null && caller.equals("completed")) {
@@ -81,6 +85,14 @@ public class Feed extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Feed.this, Sidebar.class);
+                startActivity(intent);
+            }
+        });
+
+        ibChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Feed.this, Chat.class);
                 startActivity(intent);
             }
         });

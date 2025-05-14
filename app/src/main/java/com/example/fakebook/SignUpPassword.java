@@ -1,6 +1,8 @@
 package com.example.fakebook;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +33,9 @@ public class SignUpPassword extends AppCompatActivity {
 
     EditText etPassword, etConfirmPassword;
     Button buttonCompleteSignUp, buttonBack;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     DBHelper DB;
 
@@ -105,6 +110,20 @@ public class SignUpPassword extends AppCompatActivity {
                                                 newUser.put("phone", phone);
 
                                                 firestoreDB.collection("USERS").document(uid).set(newUser);
+
+                                                sharedPreferences = getSharedPreferences("USER_SESSION", Context.MODE_PRIVATE);
+                                                editor = sharedPreferences.edit();
+
+                                                String fullName = firstName + " " + lastName;
+
+                                                editor.putString("SESSION_EMAIL", email);
+                                                editor.putString("SESSION_FIRSTNAME", firstName);
+                                                editor.putString("SESSION_LASTNAME", lastName);
+                                                editor.putString("SESSION_FULLNAME", fullName);
+                                                editor.putString("SESSION_USERNAME", username);
+                                                editor.putString("SESSION_UID", user.getUid());
+
+                                                editor.apply();
 
                                                 Intent intent = new Intent(SignUpPassword.this, MainActivity.class);
                                                 intent.putExtra("signUpStatus", "completed");

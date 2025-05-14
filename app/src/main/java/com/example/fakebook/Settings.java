@@ -105,7 +105,7 @@ public class Settings extends AppCompatActivity {
                     updatedUser.put("phone", phone);
                     updatedUser.put("bio", bio);
 
-                    firestoreDB.collection("USERS").document(uid).set(updatedUser).addOnSuccessListener(aVoid -> {
+                    firestoreDB.collection("USERS").document(uid).update(updatedUser).addOnSuccessListener(aVoid -> {
                                 // Save to SharedPreferences only if Firestore update was successful
                                 sharedPreferences.edit()
                                         .putString("SESSION_FIRSTNAME", firstName)
