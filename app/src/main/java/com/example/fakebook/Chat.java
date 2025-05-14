@@ -1,8 +1,8 @@
 package com.example.fakebook;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -27,14 +28,15 @@ public class Chat extends AppCompatActivity {
     FirebaseUser user = firebaseAuth.getCurrentUser();
 
     RecyclerView chatRecyclerView;
-    MessageAdapter messageAdapter;
-    List<Message> messageList = new ArrayList<Message>();
+    MessagePreviewAdapter messagePreviewAdapter;
+    List<MessagePreview> messagePreviewList = new ArrayList<MessagePreview>();
 
     RecyclerView chatheadRecyclerView;
     ChatheadsAdapter chatheadsAdapter;
     List<Chathead> chatheadList = new ArrayList<>();
 
     String uid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,42 +49,49 @@ public class Chat extends AppCompatActivity {
         });
 
         firestoreDB = FirebaseFirestore.getInstance();
-//        chatRecyclerView = findViewById(R.id.chats_recycler_view);
-//        messageAdapter = new MessageAdapter(messageList);
-//        chatRecyclerView.setAdapter(messageAdapter);
+
+        chatRecyclerView = findViewById(R.id.chats_recycler_view);
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        messagePreviewAdapter = new MessagePreviewAdapter(messagePreviewList);
+        chatRecyclerView.setAdapter(messagePreviewAdapter);
 
         chatheadRecyclerView = findViewById(R.id.chathead_recycler_view);
-        chatheadRecyclerView.setLayoutManager((new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)));
+        chatheadRecyclerView.setLayoutManager((new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)));
         chatheadsAdapter = new ChatheadsAdapter(this, chatheadList);
         chatheadRecyclerView.setAdapter(chatheadsAdapter);
 
         uid = user.getUid();
 
-        if(uid != null && !uid.isEmpty()){
-//            fetchMessage();
+        if (uid != null && !uid.isEmpty()) {
+            fetchMessage();
             fetchUsers();
         }
     }
 
-    private void fetchMessage(){
-        messageList.clear();
+    private void fetchMessage() {
+        firestoreDB.collection("CHAT PREVIEW")
+                .whereArrayContains("participants", uid)
+                .orderBy("lastMessageTime", Query.Direction.DESCENDING)
+                .addSnapshotListener(
+                        (value, error) -> {
+                            if (error != null) {
+                                Log.w("Firestore error", "Listen Failed", error);
+                                return;
+                            }
 
-        firestoreDB.collection("CHAT COLLECTION")
-                .whereEqualTo("receiverID", user.getUid())
-                .orderBy("sentDate", Query.Direction.ASCENDING)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        Message message = documentSnapshot.toObject(Message.class);
-                        messageList.add(message);
-                    }
+                            messagePreviewList.clear();
 
-                    messageAdapter.notifyDataSetChanged();
-                    })
-                .addOnFailureListener(e -> Log.e("Message Error", "fetchMessage: ", e));
+                            for (DocumentSnapshot doc : value.getDocuments()) {
+                                MessagePreview messagePreview = doc.toObject(MessagePreview.class);
+
+                                messagePreviewList.add(messagePreview);
+                            }
+
+                            messagePreviewAdapter.notifyDataSetChanged();
+                        });
     }
 
-    private void fetchUsers(){
+    private void fetchUsers() {
         chatheadList.clear();
 
         firestoreDB.collection("USERS")

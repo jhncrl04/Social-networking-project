@@ -3,6 +3,7 @@ package com.example.fakebook;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,6 +39,8 @@ public class Settings extends AppCompatActivity {
     EditText etFirstName, etLastName, etUsername, etEmail, etPhone, etBio;
     String firstName, lastName, username, email, phone, bio;
     ProgressBar progressBar;
+
+    Boolean isChanged = false;
 
     FirebaseUser user;
     FirebaseFirestore firestoreDB;
@@ -81,6 +84,9 @@ public class Settings extends AppCompatActivity {
         imageButtonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("isChanged", isChanged);
+                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }
         });
@@ -98,6 +104,8 @@ public class Settings extends AppCompatActivity {
                 progressBar.setVisibility(VISIBLE);
 
                 if (isSomethingChange()) {
+                    isChanged = true;
+
                     Map<String, Object> updatedUser = new HashMap<>();
                     updatedUser.put("firstName", firstName);
                     updatedUser.put("lastName", lastName);
@@ -105,12 +113,15 @@ public class Settings extends AppCompatActivity {
                     updatedUser.put("phone", phone);
                     updatedUser.put("bio", bio);
 
+                    String fullName = firstName + " " + lastName;
+
                     firestoreDB.collection("USERS").document(uid).update(updatedUser).addOnSuccessListener(aVoid -> {
                                 // Save to SharedPreferences only if Firestore update was successful
                                 sharedPreferences.edit()
                                         .putString("SESSION_FIRSTNAME", firstName)
                                         .putString("SESSION_LASTNAME", lastName)
                                         .putString("SESSION_USERNAME", username)
+                                        .putString("SESSION_FULLNAME", fullName)
                                         .putString("SESSION_PHONE_NUMBER", phone)
                                         .putString("SESSION_BIO", bio)
                                         .apply();

@@ -1,5 +1,6 @@
 package com.example.fakebook;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -88,7 +89,7 @@ public class Sidebar extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Sidebar.this, Settings.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1000);
             }
         }));
 
@@ -106,5 +107,21 @@ public class Sidebar extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {
+
+            Boolean result = data.getBooleanExtra("isChanged", false);
+
+            Log.d("Change status", "isChanged: " + result);
+
+            if (result) {
+                buttonUsername.setText(sharedPreferences.getString("SESSION_FULLNAME", null));
+            }
+        }
     }
 }
