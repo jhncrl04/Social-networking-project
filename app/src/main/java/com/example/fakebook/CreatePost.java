@@ -198,11 +198,15 @@ public class CreatePost extends AppCompatActivity {
                                     this.getContentResolver(),
                                     imageUri);
 
-                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            Bitmap.CompressFormat compressFormat;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                compressFormat = Bitmap.CompressFormat.WEBP_LOSSLESS;
+                            } else {
+                                compressFormat = Bitmap.CompressFormat.WEBP;
+                            }
 
-                            selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 7, baos);
-                            byte[] imageBytes = baos.toByteArray();
-                            imageBitmap = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                            byte[] compressedImage = compressBitmap(selectedImageBitmap, 400, compressFormat, 75);
+                            imageBitmap = Base64.encodeToString(compressedImage, Base64.DEFAULT);
 
                             ivUploadedImage.setVisibility(VISIBLE);
                             ivUploadedImage.setImageBitmap(selectedImageBitmap);
@@ -213,4 +217,22 @@ public class CreatePost extends AppCompatActivity {
                     }
                 }
             });
+
+    public byte[] compressBitmap(Bitmap bitmap, int maxSize, Bitmap.CompressFormat format, int quality) {
+        // 1. Resize the bitmap
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float scale = Math.min((float) maxSize / width, (float) maxSize / height);
+
+        int scaledWidth = Math.round(scale * width);
+        int scaledHeight = Math.round(scale * height);
+
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
+
+        // 2. Compress to byte array
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        resizedBitmap.compress(format, quality, outputStream);
+
+        return outputStream.toByteArray();
+    }
 }

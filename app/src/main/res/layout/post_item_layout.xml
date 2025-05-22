@@ -109,31 +109,35 @@
                         android:background="#00313131"
                         android:orientation="horizontal">
 
-                        <Button
+                        <ImageButton
                             android:id="@+id/like_button"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:background="@drawable/heart_vector"
-                            android:contentDescription="Like"
-                            android:drawableTint="@color/white" />
+                            android:src="@drawable/heart_vector"
+                            android:scaleType="centerCrop"
+                            android:background="@null"
+                            android:contentDescription="Like"/>
 
-                        <Button
+                        <ImageButton
                             android:id="@+id/comment_button"
-                            android:layout_width="19dp"
-                            android:layout_height="19dp"
-                            android:layout_marginStart="20dp"
-                            android:background="@drawable/comment_vector"
-                            android:contentDescription="Comment"
-                            android:drawableTint="@color/white" />
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/comment_vector"
+                            android:scaleType="centerCrop"
+                            android:background="@null"
+                            android:contentDescription="comment"
+                            android:layout_marginStart="15dp"/>
 
-                        <Button
+                        <ImageButton
                             android:id="@+id/share_button"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_marginStart="20dp"
-                            android:background="@drawable/share_vector"
+                            android:src="@drawable/share_vector"
+                            android:scaleType="centerCrop"
+                            android:background="@null"
                             android:contentDescription="Share"
-                            android:drawableTint="@color/white" />
+                            android:layout_marginStart="15dp"
+                            />
 
                     </LinearLayout>
                 </LinearLayout>

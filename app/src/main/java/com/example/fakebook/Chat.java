@@ -52,7 +52,7 @@ public class Chat extends AppCompatActivity {
 
         chatRecyclerView = findViewById(R.id.chats_recycler_view);
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        messagePreviewAdapter = new MessagePreviewAdapter(messagePreviewList);
+        messagePreviewAdapter = new MessagePreviewAdapter(this, messagePreviewList);
         chatRecyclerView.setAdapter(messagePreviewAdapter);
 
         chatheadRecyclerView = findViewById(R.id.chathead_recycler_view);

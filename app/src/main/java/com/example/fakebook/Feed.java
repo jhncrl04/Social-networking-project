@@ -49,8 +49,6 @@ public class Feed extends AppCompatActivity {
             return insets;
         });
 
-        startActivity(new Intent(Feed.this, Chat.class));
-
         postsRecyclerView = findViewById(R.id.post_recycler_view);
         postsRecyclerView.setHasFixedSize(true);
         postsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
