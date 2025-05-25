@@ -159,7 +159,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/friends_button"
+            android:id="@+id/followers_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@null"

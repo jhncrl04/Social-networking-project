@@ -108,107 +108,107 @@
         android:backgroundTint="#101010"
         app:layout_constraintTop_toBottomOf="@id/freinds_label_layout" />
 
-    <LinearLayout
-        android:id="@+id/chat_container_1"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/textView23">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/chat_container_1"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/textView23">-->
 
-        <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:gravity="center"
-            android:orientation="vertical">
+<!--        <LinearLayout-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="vertical">-->
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                app:cardCornerRadius="100dp">
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="75dp"-->
+<!--                android:layout_height="75dp"-->
+<!--                app:cardCornerRadius="100dp">-->
 
-                <ImageView
-                    android:id="@+id/imageView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/yes_king"
-                    android:scaleType="centerCrop"/>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView13"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:srcCompat="@drawable/yes_king"-->
+<!--                    android:scaleType="centerCrop"/>-->
+<!--            </androidx.cardview.widget.CardView>-->
+<!--        </LinearLayout>-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="vertical">-->
 
-            <TextView
-                android:id="@+id/textView19"
-                android:layout_width="match_parent"
-                android:layout_height="47dp"
-                android:layout_marginTop="10dp"
-                android:gravity="bottom"
-                android:text="Leynard Drake Hernandez accepts your request."
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+<!--            <TextView-->
+<!--                android:id="@+id/textView19"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="47dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:gravity="bottom"-->
+<!--                android:text="Leynard Drake Hernandez accepts your request."-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="16sp" />-->
 
-            <TextView
-                android:id="@+id/textView20"
-                android:layout_width="match_parent"
-                android:layout_height="53dp"
-                android:text="Just now"
-                android:textColor="#BAB9B9" />
-        </LinearLayout>
-    </LinearLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/textView20"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="53dp"-->
+<!--                android:text="Just now"-->
+<!--                android:textColor="#BAB9B9" />-->
+<!--        </LinearLayout>-->
+<!--    </LinearLayout>-->
 
-    <LinearLayout
-        android:id="@+id/chat_container_2"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/chat_container_1">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/chat_container_2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/chat_container_1">-->
 
-        <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:gravity="center"
-            android:orientation="vertical">
+<!--        <LinearLayout-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="vertical">-->
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                app:cardCornerRadius="100dp">
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="75dp"-->
+<!--                android:layout_height="75dp"-->
+<!--                app:cardCornerRadius="100dp">-->
 
-                <ImageView
-                    android:id="@+id/imageView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/keurt" />
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView13"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:scaleType="centerCrop"-->
+<!--                    app:srcCompat="@drawable/keurt" />-->
+<!--            </androidx.cardview.widget.CardView>-->
+<!--        </LinearLayout>-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="vertical">-->
 
-            <TextView
-                android:id="@+id/textView19"
-                android:layout_width="match_parent"
-                android:layout_height="47dp"
-                android:layout_marginTop="0dp"
-                android:gravity="bottom"
-                android:text="Keurt Bryan likes your post."
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+<!--            <TextView-->
+<!--                android:id="@+id/textView19"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="47dp"-->
+<!--                android:layout_marginTop="0dp"-->
+<!--                android:gravity="bottom"-->
+<!--                android:text="Keurt Bryan likes your post."-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="16sp" />-->
 
-            <TextView
-                android:id="@+id/textView20"
-                android:layout_width="match_parent"
-                android:layout_height="53dp"
-                android:text="1 hour ago"
-                android:textColor="#BAB9B9" />
-        </LinearLayout>
-    </LinearLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/textView20"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="53dp"-->
+<!--                android:text="1 hour ago"-->
+<!--                android:textColor="#BAB9B9" />-->
+<!--        </LinearLayout>-->
+<!--    </LinearLayout>-->
 
     <TextView
         android:id="@+id/textView33"

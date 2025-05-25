@@ -8,6 +8,7 @@ public class Post {
     private String content;
     private String imageBytes;
     private String userID;
+    private String firstName;
     private Date dateCreated;
     private Long likesCount;
     private Long commentsCount;
@@ -16,8 +17,10 @@ public class Post {
     public Post() {
     }  // Needed for Firestore
 
-    public Post(String authorName, String postId, String content, String imageBytes, String userID, Date dateCreated, Long likesCount,
+    public Post(String firstName, String authorName, String postId, String content, String imageBytes, String userID, Date dateCreated,
+                Long likesCount,
                 Long commentsCount, String posterProfile) {
+        this.firstName = firstName;
         this.authorName = authorName;
         this.postId = postId;
         this.content = content;
@@ -30,6 +33,10 @@ public class Post {
     }
 
     // Getters
+    public String getFirstName(){
+        return firstName;
+    }
+
     public String getAuthorName() {
         return authorName;
     }
@@ -65,6 +72,8 @@ public class Post {
     public String getPosterProfile() {
         return posterProfile;
     }
+
+    public void setFirstName(String firstName) { this.firstName = firstName; };
 
     public void setAuthorName(String authorName) {
         this.authorName = authorName;

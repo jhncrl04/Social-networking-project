@@ -26,7 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class Sidebar extends AppCompatActivity {
 
     Button buttonLogout, buttonUsername, buttonSetting;
-    ImageButton ibProfile, ibHome;
+    ImageButton ibProfile, ibHome, ibFollowing, ibFriends;
     FirebaseAuth firebaseAuth;
     String profilePic = null;
 
@@ -67,10 +67,21 @@ public class Sidebar extends AppCompatActivity {
         buttonUsername.setText(sharedPreferences.getString("SESSION_FULLNAME", null));
 
         ibHome = findViewById(R.id.home_button);
-
         ibHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(Sidebar.this, Feed.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        ibFriends = findViewById(R.id.friends_button);
+        ibFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Sidebar.this, Following.class);
+                startActivity(intent);
                 finish();
             }
         });

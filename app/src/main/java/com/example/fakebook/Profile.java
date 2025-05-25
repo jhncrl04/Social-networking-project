@@ -37,6 +37,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,11 +58,10 @@ public class Profile extends AppCompatActivity {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     FirebaseUser user = firebaseAuth.getCurrentUser();
 
-    RecyclerView gridRecyclerView;
-    GridPostAdapter gridPostAdapter;
-    List<Post> postList = new ArrayList<>();
     ProgressBar progressBar;
 
+    ViewPager2 viewPager;
+    ProfilePagerAdapter pagerAdapter;
     TextView tvName, tvFriendsCount, tvFollowersCount, tvBio;
     ImageButton ibProfile, ibNavHome, ibNavProfile, ibCoverPhoto;
 
@@ -83,16 +83,7 @@ public class Profile extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("USER_SESSION", Context.MODE_PRIVATE);
 
-        gridRecyclerView = findViewById(R.id.grid_recycler);
-        int numberOfRows = 3;
-        gridRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfRows));
-        int spacingInPixels = 16;
-        gridRecyclerView.addItemDecoration(new GridSpacingDecoration(3, spacingInPixels, true));
-
         progressBar = findViewById(R.id.profile_progress_bar);
-
-        gridPostAdapter = new GridPostAdapter(postList);
-        gridRecyclerView.setAdapter(gridPostAdapter);
 
         firestoreDB = firestoreDB.getInstance();
 
@@ -104,6 +95,14 @@ public class Profile extends AppCompatActivity {
         ibProfile = findViewById(R.id.profile_picture);
 
         profilePic = sharedPreferences.getString("SESSION_PROFILE", null);
+        viewPager = findViewById(R.id.profile_view_pager);
+
+        pagerAdapter = new ProfilePagerAdapter(this);
+
+        pagerAdapter.addFragment(new GridPostFragment(), "Gallery");
+        pagerAdapter.addFragment(new PostFragment(this), "Post");
+
+        viewPager.setAdapter(pagerAdapter);
 
         if(profilePic != null && !profilePic.isEmpty()){
             byte[] imageBytes = Base64.decode(profilePic, Base64.DEFAULT);
@@ -143,36 +142,6 @@ public class Profile extends AppCompatActivity {
                 uploadImage();
             }
         });
-
-        fetchPost();
-    }
-
-    private void fetchPost() {
-
-        if (user == null) {
-            progressBar.setVisibility(View.GONE);
-            return;
-        }
-
-        postList.clear();
-
-        firestoreDB.collection("POST COLLECTION")
-                .whereEqualTo("userID", user.getUid())
-                .orderBy("dateCreated", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        String imageBytes = documentSnapshot.getString("imageBytes");
-                        if (imageBytes != null && !imageBytes.isEmpty()) {
-                            Post post = documentSnapshot.toObject(Post.class);
-                            postList.add(post);
-                        }
-                    }
-
-                    gridPostAdapter.notifyDataSetChanged();
-                    progressBar.setVisibility(View.GONE);
-                })
-                .addOnFailureListener(e -> progressBar.setVisibility(View.GONE));
     }
 
     private void uploadImage() {

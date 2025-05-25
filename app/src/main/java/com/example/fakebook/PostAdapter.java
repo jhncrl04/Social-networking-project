@@ -181,32 +181,32 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
                         if (id == R.id.report_post) {
                             Log.d("PostMenu", "Report post clicked");
-                            processMenuAction(post.getPostId(), uid, "reportPost", post.getUserID());
+                            processMenuAction(post.getPostId(), uid, "reportPost", post.getUserID(), post.getAuthorName());
 
                             return true;
                         } else if (id == R.id.report_author) {
                             Log.d("PostMenu", "Report author clicked");
-                            processMenuAction(post.getPostId(), uid, "reportAuthor", post.getUserID());
+                            processMenuAction(post.getPostId(), uid, "reportAuthor", post.getUserID(), post.getFirstName());
 
                             return true;
                         } else if (id == R.id.unfollow_author) {
                             Log.d("PostMenu", "Unfollow author clicked");
-                            processMenuAction(post.getPostId(), uid, "unfollowAuthor", post.getUserID());
+                            processMenuAction(post.getPostId(), uid, "unfollowAuthor", post.getUserID(), post.getFirstName());
 
                             return true;
                         } else if (id == R.id.hide_post) {
                             Log.d("PostMenu", "Hide post clicked");
-                            processMenuAction(post.getPostId(), uid, "hidePost", post.getUserID());
+                            processMenuAction(post.getPostId(), uid, "hidePost", post.getUserID(), post.getFirstName());
 
                             return true;
                         } else if (id == R.id.edit_post) {
                             Log.d("SelfPostMenu", "Edit post clicked");
-                            processMenuAction(post.getPostId(), uid, "editPost", post.getUserID());
+                            processMenuAction(post.getPostId(), uid, "editPost", post.getUserID(), post.getFirstName());
 
                             return true;
                         } else if (id == R.id.delete_post) {
                             Log.d("SelfPostMenu", "Delete post clicked");
-                            processMenuAction(post.getPostId(), uid, "deletePost", post.getUserID());
+                            processMenuAction(post.getPostId(), uid, "deletePost", post.getUserID(), post.getFirstName());
 
                             return true;
                         } else {
@@ -228,7 +228,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return postList.size();
     }
 
-    public void processMenuAction(String postId, String uid, String actionToDo, String posterId){
+    public void processMenuAction(String postId, String uid, String actionToDo, String posterId, String authorFirstName){
 
         Intent intent = null;
 
@@ -237,6 +237,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             intent = new Intent(context, ReportPost.class);
         } else if (actionToDo.equals("reportAuthor")) {
             intent = new Intent(context, ReportAuthor.class);
+            intent.putExtra("authorFirstName", authorFirstName);
         } else if (actionToDo.equals("unfollowAuthor")) {
             // Handle unfollow logic here
             handleUnfollowAuthor(posterId, uid);
@@ -270,18 +271,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     // Add these helper methods to handle actions that don't require new activities
     private void handleUnfollowAuthor(String authorId, String currentUserId) {
-        // Implement unfollow logic
-        FirebaseFirestore.getInstance()
-                .collection("USERS")
-                .document(currentUserId)
-                .update("following", FieldValue.arrayRemove(authorId))
-                .addOnSuccessListener(aVoid -> {
-                    Log.d("PostMenu", "Successfully unfollowed author");
-                    // Optionally refresh the UI or show a message
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("PostMenu", "Failed to unfollow author", e);
-                });
+        DocumentReference doc = FirebaseFirestore.getInstance()
+                .collection("FOLLOWERS")
+                .document(currentUserId);
+
+        doc.update(
+                "mutuals", FieldValue.arrayRemove(authorId),
+                "requestedFollow", FieldValue.arrayRemove(authorId),
+                "followedBy", FieldValue.arrayRemove(authorId)
+        ).addOnSuccessListener(aVoid -> {
+            // Handle success (e.g., show a toast or log)
+            Log.d("Unfollow", "Successfully removed from all lists.");
+        }).addOnFailureListener(e -> {
+            // Handle failure
+            Log.e("Unfollow", "Error removing from lists", e);
+        });
     }
 
     private void handleHidePost(String postId, String currentUserId) {

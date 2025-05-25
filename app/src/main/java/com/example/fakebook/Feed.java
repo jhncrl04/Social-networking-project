@@ -32,7 +32,7 @@ import java.util.List;
 public class Feed extends AppCompatActivity {
 
     Button buttonCreatePost;
-    ImageButton buttonProfile, ibChatButton;
+    ImageButton buttonProfile, ibChatButton, ibFollowerButton;
     FirebaseFirestore firestoreDB;
     RecyclerView postsRecyclerView;
     PostAdapter adapter;
@@ -98,6 +98,16 @@ public class Feed extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ibFollowerButton = findViewById(R.id.followers_button);
+
+        ibFollowerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Feed.this, Following.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void fetchPost() {
@@ -133,7 +143,9 @@ public class Feed extends AppCompatActivity {
                                 String fullName = firstName + " " + lastName;
                                 String posterProfile = doc.getString("profilePic");
 
+                                post.setFirstName(firstName);
                                 post.setAuthorName(fullName);
+
                                 if(!posterProfile.isEmpty()){
                                    post.setPosterProfile(posterProfile);
                                 }

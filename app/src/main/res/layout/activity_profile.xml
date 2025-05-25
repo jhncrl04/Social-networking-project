@@ -179,6 +179,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageButton
+                        android:id="@+id/post_grid"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@null"
@@ -192,6 +193,7 @@
                         android:layout_weight="1" />
 
                     <ImageButton
+                        android:id="@+id/post_stack"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@null"
@@ -205,6 +207,7 @@
                         android:layout_weight="1" />
 
                     <ImageButton
+                        android:id="@+id/post_shared"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@null"
@@ -231,99 +234,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/posts_top_border" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/grid_recycler"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/profile_view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
-                app:layout_constraintTop_toBottomOf="@id/posts_top_border" />
+                app:layout_constraintTop_toBottomOf="@id/posts_top_border"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
-
-    <!--    <androidx.cardview.widget.CardView-->
-    <!--        android:layout_width="136dp"-->
-    <!--        android:layout_height="136dp"-->
-    <!--        tools:layout_editor_absoluteX="0dp"-->
-    <!--        tools:layout_editor_absoluteY="357dp">-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/imageView4"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent"-->
-    <!--            app:srcCompat="@drawable/img1" />-->
-    <!--    </androidx.cardview.widget.CardView>-->
-
-    <!--    <androidx.cardview.widget.CardView-->
-    <!--        android:layout_width="136dp"-->
-    <!--        android:layout_height="136dp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.498"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        tools:layout_editor_absoluteY="357dp">-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/imageView5"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:srcCompat="@drawable/img3" />-->
-    <!--    </androidx.cardview.widget.CardView>-->
-
-    <!--    <androidx.cardview.widget.CardView-->
-    <!--        android:layout_width="136dp"-->
-    <!--        android:layout_height="136dp"-->
-    <!--        tools:layout_editor_absoluteX="275dp"-->
-    <!--        tools:layout_editor_absoluteY="357dp">-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/imageView6"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            app:srcCompat="@drawable/img4" />-->
-    <!--    </androidx.cardview.widget.CardView>-->
-
-    <!--    <androidx.cardview.widget.CardView-->
-    <!--        android:layout_width="136dp"-->
-    <!--        android:layout_height="136dp"-->
-    <!--        tools:layout_editor_absoluteX="0dp"-->
-    <!--        tools:layout_editor_absoluteY="495dp">-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/imageView7"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            app:srcCompat="@drawable/img5" />-->
-    <!--    </androidx.cardview.widget.CardView>-->
-
-    <!--    <androidx.cardview.widget.CardView-->
-    <!--        android:layout_width="136dp"-->
-    <!--        android:layout_height="136dp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.498"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        tools:layout_editor_absoluteY="495dp">-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/imageView8"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            app:srcCompat="@drawable/img6" />-->
-    <!--    </androidx.cardview.widget.CardView>-->
-
-    <!--    <androidx.cardview.widget.CardView-->
-    <!--        android:layout_width="136dp"-->
-    <!--        android:layout_height="136dp"-->
-    <!--        tools:layout_editor_absoluteX="275dp"-->
-    <!--        tools:layout_editor_absoluteY="495dp">-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/imageView9"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            app:srcCompat="@drawable/img2" />-->
-    <!--    </androidx.cardview.widget.CardView>-->
 
     <!--  Nav and body line separator  -->
     <androidx.cardview.widget.CardView
