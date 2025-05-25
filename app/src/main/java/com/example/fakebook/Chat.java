@@ -3,6 +3,8 @@ package com.example.fakebook;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +37,8 @@ public class Chat extends AppCompatActivity {
     ChatheadsAdapter chatheadsAdapter;
     List<Chathead> chatheadList = new ArrayList<>();
 
+    ImageButton ibHomeButton;
+
     String uid;
 
     @Override
@@ -46,6 +50,15 @@ public class Chat extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        ibHomeButton = findViewById(R.id.back_to_home_button);
+
+        ibHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
         });
 
         firestoreDB = FirebaseFirestore.getInstance();

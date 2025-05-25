@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_like"
-        android:icon="@drawable/heart_vector"
+        android:icon="@drawable/heart_vector_old"
         android:iconTint="@color/white"
         android:title="Like" />
     <item

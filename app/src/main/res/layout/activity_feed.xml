@@ -21,8 +21,8 @@
             android:id="@+id/app_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text=" Fakebook"
+            android:layout_marginStart="10dp"
+            android:text="Bulsu Feed"
             android:textColor="#2CB67D"
             android:textSize="34sp"
             android:textStyle="bold" />
@@ -67,7 +67,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/rounded_profile"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_profile" />
 
         <Button
             android:id="@+id/create_post_button"
@@ -100,13 +101,15 @@
         app:layout_constraintTop_toBottomOf="@+id/create_post_layout" />
 
     <!--  Recycler View for posts  -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/post_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/bot_nav_border"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_body_separator">
+        app:layout_constraintTop_toBottomOf="@id/header_body_separator"
+        app:layout_constraintVertical_bias="0.0">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -145,8 +148,8 @@
             android:id="@+id/home_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="15dp"
             android:background="@null"
+            android:padding="15dp"
             android:scaleType="centerCrop"
             android:src="@drawable/home_vector" />
 
@@ -159,8 +162,8 @@
             android:id="@+id/friends_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="15dp"
             android:background="@null"
+            android:padding="15dp"
             android:scaleType="centerCrop"
             android:src="@drawable/friends_vector" />
 
@@ -173,10 +176,10 @@
             android:id="@+id/following_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="15dp"
             android:background="@null"
+            android:padding="15dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/heart_vector" />
+            android:src="@drawable/heart_vector_old" />
 
         <View
             android:layout_width="0dp"
@@ -187,8 +190,8 @@
             android:id="@+id/notification_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="15dp"
             android:background="@null"
+            android:padding="15dp"
             android:scaleType="centerCrop"
             android:src="@drawable/notification_vector" />
 
@@ -201,8 +204,8 @@
             android:id="@+id/profile_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="15dp"
             android:background="@null"
+            android:padding="15dp"
             android:scaleType="centerCrop"
             android:src="@drawable/profile_vector" />
 
@@ -212,6 +215,5 @@
             android:layout_weight=".5" />
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

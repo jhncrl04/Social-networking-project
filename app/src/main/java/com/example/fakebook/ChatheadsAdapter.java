@@ -53,6 +53,8 @@ public class ChatheadsAdapter extends RecyclerView.Adapter<ChatheadsAdapter.Chat
             byte[] imageBytes = Base64.decode(base64, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
             holder.ibChatheadProfile.setImageBitmap(bitmap);
+        }else{
+            holder.ibChatheadProfile.setImageResource(R.drawable.default_profile);
         }
 
         holder.buttonChatheadName.setText(chathead.getFirstName());

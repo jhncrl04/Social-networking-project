@@ -106,6 +106,8 @@ public class MessagePreviewAdapter extends RecyclerView.Adapter<MessagePreviewAd
                             byte[] imageBytes = Base64.decode(profilePic, Base64.DEFAULT);
                             Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                             holder.ibChatHead.setImageBitmap(bitmap);
+                        }else{
+                            holder.ibChatHead.setImageResource(R.drawable.default_profile);
                         }
 
                         holder.messageBody.setOnClickListener(view -> {

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/report_post"
+        android:title="Report Post"
+        android:iconTint="#fff" />
+    <item
+        android:id="@+id/report_author"
+        android:title="Report Author"
+        android:iconTint="#fff" />
+    <item
+        android:id="@+id/unfollow_author"
+        android:title="Unfollow Author"
+        android:iconTint="#fff" />
+    <item
+        android:id="@+id/hide_post"
+        android:title="Hide Post"
+        android:iconTint="#fff" />
+</menu>

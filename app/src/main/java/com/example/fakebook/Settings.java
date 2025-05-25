@@ -17,12 +17,18 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,9 +41,9 @@ public class Settings extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     ImageButton imageButtonBack;
-    Button buttonUpdatePersonalInfo;
-    EditText etFirstName, etLastName, etUsername, etEmail, etPhone, etBio;
-    String firstName, lastName, username, email, phone, bio;
+    Button buttonUpdatePersonalInfo, buttonUpdatePassword;
+    EditText etFirstName, etLastName, etUsername, etEmail, etPhone, etBio, etOldPassword, etNewPassword, etConfirmPassword;
+    String firstName, lastName, username, email, phone, bio, oldPassword, newPassword, confirmPassword;
     ProgressBar progressBar;
 
     Boolean isChanged = false;
@@ -80,7 +86,6 @@ public class Settings extends AppCompatActivity {
 
         buttonUpdatePersonalInfo = findViewById(R.id.update_personal_info_button);
         imageButtonBack = findViewById(R.id.back_button);
-
         imageButtonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,6 +140,65 @@ public class Settings extends AppCompatActivity {
                 }
             }
         });
+
+        buttonUpdatePassword = findViewById(R.id.update_password_button);
+        etOldPassword = findViewById(R.id.current_password);
+        etNewPassword = findViewById(R.id.new_password);
+        etConfirmPassword = findViewById(R.id.confirm_password);
+
+        buttonUpdatePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                oldPassword = etOldPassword.getText().toString();
+                newPassword = etNewPassword.getText().toString();
+                confirmPassword = etConfirmPassword.getText().toString();
+
+                if (oldPassword == null || oldPassword.isEmpty() ||
+                        newPassword == null || newPassword.isEmpty() ||
+                        confirmPassword == null || confirmPassword.isEmpty()) {
+
+                    Toast.makeText(Settings.this, "Fill all the required password fields.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!newPassword.equals(confirmPassword)) {
+                    Toast.makeText(Settings.this, "New passwords do not match.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (newPassword.equals(oldPassword)) {
+                    Toast.makeText(Settings.this, "New password must be different from old password.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (newPassword.length() < 6) {
+                    Toast.makeText(Settings.this, "New password must be at least 6 characters.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), oldPassword);
+
+                user.reauthenticate(credential).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        user.updatePassword(newPassword).addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                Toast.makeText(Settings.this, "Password updated", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(Settings.this, "Failed to update password. Try again.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(Settings.this, "Re-authentication failed. Check your current password.", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Re-authentication Error:", "Error: " + e);
+                        Toast.makeText(Settings.this, "Updating password failed due to internal error. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
     public Boolean isSomethingChange() {
@@ -144,7 +208,7 @@ public class Settings extends AppCompatActivity {
             return true;
         } else if (!Objects.equals(sharedPreferences.getString("SESSION_USERNAME", null), username)) {
             return true;
-        } else if (!Objects.equals(sharedPreferences.getString("SESSION_PHONE", null), phone)) {
+        } else if (!Objects.equals(sharedPreferences.getString("SESSION_PHONE_NUMBER", null), phone)) {
             return true;
         } else if (!Objects.equals(sharedPreferences.getString("SESSION_BIO", null), bio)) {
             return true;

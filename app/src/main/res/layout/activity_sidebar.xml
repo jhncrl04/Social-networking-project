@@ -27,7 +27,8 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/image_rounded_border"
+                android:background="@drawable/rounded_profile"
+                android:src="@drawable/default_profile"
                 android:scaleType="centerCrop"
                 android:clipToOutline="true" />
 
@@ -159,7 +160,7 @@
             android:padding="15dp"
             android:background="@null"
             android:scaleType="centerCrop"
-            android:src="@drawable/heart_vector" />
+            android:src="@drawable/heart_vector_old" />
 
         <View
             android:layout_width="0dp"

@@ -76,13 +76,17 @@
             android:hint="Username" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/forgot_password_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:text="Forgot password?"
+        android:textAllCaps="false"
+        android:background="@drawable/transparent_bg"
         android:textColor="#2CB67D"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

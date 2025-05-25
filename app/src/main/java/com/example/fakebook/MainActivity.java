@@ -28,7 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button buttonSignUp, buttonLogin;
+    Button buttonSignUp, buttonLogin, buttonForgotPassword;
     EditText etEmail, etPassword;
     DBHelper DB;
 
@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.login_password);
         buttonSignUp = findViewById(R.id.sign_up_button);
         buttonLogin = findViewById(R.id.log_in_button);
+        buttonForgotPassword = findViewById(R.id.forgot_password_button);
+
         DB = new DBHelper(this);
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 String email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
 
+                // Log in functionality
                 if (!email.isBlank() && !password.isBlank()) {
                     mAuth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -147,6 +150,14 @@ public class MainActivity extends AppCompatActivity {
                 DB.deleteData();
 
                 Intent intent = new Intent(MainActivity.this, SignUp.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ForgotPassword.class);
                 startActivity(intent);
             }
         });

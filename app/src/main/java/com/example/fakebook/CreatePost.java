@@ -4,9 +4,12 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.ImageWriter;
 import android.net.Uri;
 import android.os.Build;
@@ -19,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -56,13 +60,15 @@ import java.util.UUID;
 
 public class CreatePost extends AppCompatActivity {
 
+    SharedPreferences sharedPreferences;
     Button buttonReturn, buttonSubmitPost;
     ImageButton imgButtonUploadImage;
     EditText etPostContent;
     String imageUrl = null;
+    TextView tvPosterName;
 
     String imageBitmap = "";
-    ImageView ivUploadedImage;
+    ImageView ivUploadedImage, ivPosterProfile;
 
     ProgressBar progressBar;
     FirebaseFirestore firestoreDB;
@@ -78,6 +84,25 @@ public class CreatePost extends AppCompatActivity {
             return insets;
         });
 
+        sharedPreferences = getSharedPreferences("USER_SESSION", Context.MODE_PRIVATE);
+
+        String fullname = sharedPreferences.getString("SESSION_FULLNAME", null);
+        String profile = sharedPreferences.getString("SESSION_PROFILE", null);
+
+        tvPosterName = findViewById(R.id.poster_name);
+        ivPosterProfile = findViewById(R.id.poster_profile);
+
+        tvPosterName.setText(fullname);
+
+        if(profile != null && !profile.isEmpty()){
+            byte[] imageBytes = Base64.decode(profile, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
+            ivPosterProfile.setImageBitmap(bitmap);
+        }else{
+            ivPosterProfile.setImageResource(R.drawable.default_profile);
+        }
+
         buttonReturn = findViewById(R.id.return_button);
         buttonSubmitPost = findViewById(R.id.submit_post_button);
         imgButtonUploadImage = findViewById(R.id.upload_image_button);
@@ -91,8 +116,10 @@ public class CreatePost extends AppCompatActivity {
         buttonReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CreatePost.this, Feed.class);
-                startActivity(intent);
+                // Intent intent = new Intent(CreatePost.this, Feed.class);
+                // startActivity(intent);
+
+                finish();
             }
         });
 
@@ -133,6 +160,13 @@ public class CreatePost extends AppCompatActivity {
                         buttonSubmitPost.setEnabled(true);
 
                         if (task.isSuccessful()) {
+
+                            Map<String, Object> newLikeDocument = new HashMap<>();
+
+                            newLikeDocument.put("posterId", uid);
+
+                            firestoreDB.collection("LIKES COLLECTION").document(postId).set(newLikeDocument);
+
                             Intent intent = new Intent(CreatePost.this, Feed.class);
                             intent.putExtra("postCreationStatus", "completed");
                             startActivity(intent);

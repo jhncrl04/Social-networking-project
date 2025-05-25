@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -38,6 +39,9 @@ public class Feed extends AppCompatActivity {
     List<Post> postList = new ArrayList<>();
     ProgressBar progressBar;
 
+    FirebaseAuth user = FirebaseAuth.getInstance();
+    String uid = user.getUid();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +57,7 @@ public class Feed extends AppCompatActivity {
         postsRecyclerView.setHasFixedSize(true);
         postsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new PostAdapter(postList);
+        adapter = new PostAdapter(this, postList);
         postsRecyclerView.setAdapter(adapter);
 
         firestoreDB = firestoreDB.getInstance();
@@ -109,7 +113,15 @@ public class Feed extends AppCompatActivity {
 
             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                 Post post = documentSnapshot.toObject(Post.class);
+                String postId = documentSnapshot.getString("postId");
                 String posterId = documentSnapshot.getString("userID");
+                Boolean isPostDeleted = documentSnapshot.getBoolean("isDeleted");
+                List<String> hiddenBy = (List<String>) documentSnapshot.get("hiddenBy");
+
+
+                if (Boolean.TRUE.equals(isPostDeleted)) {
+                    continue;
+                }
 
                 firestoreDB.collection("USERS")
                         .document(posterId)
@@ -119,11 +131,17 @@ public class Feed extends AppCompatActivity {
                                 String firstName = doc.getString("firstName");
                                 String lastName = doc.getString("lastName");
                                 String fullName = firstName + " " + lastName;
+                                String posterProfile = doc.getString("profilePic");
 
                                 post.setAuthorName(fullName);
+                                if(!posterProfile.isEmpty()){
+                                   post.setPosterProfile(posterProfile);
+                                }
                             }
 
-                            postList.add(post);
+                            if(hiddenBy == null || !hiddenBy.contains(uid)){
+                                postList.add(post);
+                            }
 
                             adapter.notifyDataSetChanged();
 

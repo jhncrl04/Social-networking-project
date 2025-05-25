@@ -382,7 +382,7 @@
             android:background="@null"
             android:padding="15dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/heart_vector" />
+            android:src="@drawable/heart_vector_old" />
 
         <View
             android:layout_width="0dp"

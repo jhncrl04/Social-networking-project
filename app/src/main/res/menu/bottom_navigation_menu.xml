@@ -12,7 +12,7 @@
             android:title="Friends" />
         <item
             android:id="@+id/navigation_following"
-            android:icon="@drawable/heart_vector"
+            android:icon="@drawable/heart_vector_old"
             android:iconTint="@color/white"
             android:title="Following" />
         <item

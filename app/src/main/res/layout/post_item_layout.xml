@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@null"
-    android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#161616"
+    android:orientation="vertical">
 
     <!--  Post author container  -->
     <LinearLayout
@@ -15,13 +15,14 @@
         android:padding="16dp">
 
         <ImageButton
+            android:id="@+id/profile_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/rounded_profile"
             android:clipToOutline="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/keurt" />
+            android:src="@drawable/default_profile" />
 
 
         <LinearLayout
@@ -31,9 +32,9 @@
             android:orientation="vertical">
 
             <!--  Name & Date container  -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:gravity="center|start"
                 android:orientation="vertical">
@@ -47,15 +48,31 @@
                     android:minHeight="0dp"
                     android:textAllCaps="false"
                     android:textColor="#ffffff"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/post_date_creation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#818181"
-                    android:textSize="12sp" />
-            </LinearLayout>
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/post_author"
+                    />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/post_menu"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@null"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/three_dots"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--  Post Content  -->
             <LinearLayout
@@ -112,11 +129,11 @@
                         <ImageButton
                             android:id="@+id/like_button"
                             android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/heart_vector"
-                            android:scaleType="centerCrop"
+                            android:layout_height="match_parent"
                             android:background="@null"
-                            android:contentDescription="Like"/>
+                            android:contentDescription="Like"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/heart" />
 
                         <ImageButton
                             android:id="@+id/comment_button"

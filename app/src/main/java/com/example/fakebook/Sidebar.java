@@ -71,8 +71,6 @@ public class Sidebar extends AppCompatActivity {
         ibHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Sidebar.this, Feed.class);
-                startActivity(intent);
                 finish();
             }
         });
