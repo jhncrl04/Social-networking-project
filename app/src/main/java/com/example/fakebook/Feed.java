@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -38,6 +39,7 @@ public class Feed extends AppCompatActivity {
     PostAdapter adapter;
     List<Post> postList = new ArrayList<>();
     ProgressBar progressBar;
+    CoordinatorLayout rootview;
 
     FirebaseAuth user = FirebaseAuth.getInstance();
     String uid = user.getUid();
@@ -57,7 +59,9 @@ public class Feed extends AppCompatActivity {
         postsRecyclerView.setHasFixedSize(true);
         postsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new PostAdapter(this, postList, getSupportFragmentManager());
+        rootview = findViewById(R.id.main);
+
+        adapter = new PostAdapter(this, postList, getSupportFragmentManager(), rootview);
         postsRecyclerView.setAdapter(adapter);
 
         firestoreDB = firestoreDB.getInstance();
@@ -67,8 +71,6 @@ public class Feed extends AppCompatActivity {
         progressBar = findViewById(R.id.feed_progress_bar);
         buttonCreatePost = findViewById(R.id.create_post_button);
         buttonProfile = findViewById(R.id.profile_button);
-
-        ibChatButton = findViewById(R.id.chat_button);
 
         String caller = getIntent().getStringExtra("postCreationStatus");
         if (caller != null && caller.equals("completed")) {
@@ -91,6 +93,7 @@ public class Feed extends AppCompatActivity {
             }
         });
 
+        ibChatButton = findViewById(R.id.chat_button);
         ibChatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

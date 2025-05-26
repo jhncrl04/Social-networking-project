@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,7 @@ public class PostFragment extends Fragment {
     PostAdapter postAdapter;
     List<Post> postList = new ArrayList<>();
     View layoutNoPost;
+    CoordinatorLayout rootview;
 
     FirebaseFirestore firestoreDB;
     FirebaseAuth firebaseAuth;
@@ -56,7 +58,8 @@ public class PostFragment extends Fragment {
 
         layoutNoPost = view.findViewById(R.id.no_post_label);
 
-        postAdapter = new PostAdapter(context, postList, getParentFragmentManager());
+        rootview = view.findViewById(R.id.snackbar_root);
+        postAdapter = new PostAdapter(context, postList, getParentFragmentManager(), rootview);
         postRecyclerView.setAdapter(postAdapter);
 
         fetchPosts(uid);

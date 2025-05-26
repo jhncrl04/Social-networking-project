@@ -26,7 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class Sidebar extends AppCompatActivity {
 
     Button buttonLogout, buttonUsername, buttonSetting;
-    ImageButton ibProfile, ibHome, ibFollowing, ibFriends;
+    ImageButton ibProfile, ibHome, ibLikedPost, ibNotification, ibFriends;
     FirebaseAuth firebaseAuth;
     String profilePic = null;
 
@@ -84,6 +84,20 @@ public class Sidebar extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
+        });
+
+        ibLikedPost = findViewById(R.id.liked_post_button);
+        ibLikedPost.setOnClickListener(v -> {
+            Intent intent = new Intent(Sidebar.this, LikedPost.class);
+            startActivity(intent);
+            finish();
+        });
+
+        ibNotification = findViewById(R.id.notification_button);
+        ibNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(Sidebar.this, Notification.class);
+            startActivity(intent);
+            finish();
         });
 
         buttonUsername.setOnClickListener(new View.OnClickListener() {

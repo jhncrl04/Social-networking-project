@@ -21,10 +21,12 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -32,6 +34,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -47,13 +50,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     private String uid = user.getUid();
     private FirebaseFirestore firestoreDB;
     private FragmentManager fragmentManager;
+    private View rootView;
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         public ImageView ivPostImage;
         public TextView contentText, dateText;
         public Button buttonAuthorName;
         public LinearLayout imageContainer;
-        public ImageButton ibLikeButton, ibProfileButton, ibPostMenu, ibComment;
+        public ImageButton ibLikeButton, ibProfileButton, ibPostMenu, ibComment, ibShare;
 
         public PostViewHolder(View itemView) {
             super(itemView);
@@ -67,13 +71,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             ibProfileButton = itemView.findViewById(R.id.profile_button);
             ibPostMenu = itemView.findViewById(R.id.post_menu);
             ibComment = itemView.findViewById(R.id.comment_button);
+            ibShare = itemView.findViewById(R.id.share_button);
         }
     }
 
-    public PostAdapter(Context context, List<Post> posts, FragmentManager fragmentManager) {
+    public PostAdapter(Context context, List<Post> posts, FragmentManager fragmentManager, CoordinatorLayout rootView) {
         this.context = context;
         this.postList = posts;
         this.fragmentManager = fragmentManager;
+        this.rootView = rootView;
     }
 
     @Override
@@ -248,6 +254,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.ibProfileButton.setOnClickListener(v -> {
             viewProfile(post.getUserID());
         });
+
+        holder.ibShare.setOnClickListener(v -> {
+            sharePost(post.getPostId(), uid, rootView);
+        });
     }
 
     @Override
@@ -255,9 +265,43 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return postList.size();
     }
 
-    public void viewProfile(String uid){
+    public void sharePost(String postId, String userId, View rootView){
+        DocumentReference doc = firestoreDB.collection("SHARES COLLECTION").document();
+
+        Date date = new Date();
+
+        Map<String, Object> newDoc = new HashMap<>();
+        newDoc.put("shareId", doc.getId());
+        newDoc.put("postId", postId);
+        newDoc.put("userId", userId);
+        newDoc.put("shareDate", date);
+
+        doc.set(newDoc).addOnSuccessListener(listener -> {
+            showSnackbar(doc.getId(), rootView);
+        });
+    }
+
+    public void showSnackbar(String shareId, View rootView){
+        Snackbar.make(rootView, "Post Shared", Snackbar.LENGTH_SHORT).setAction("Undo", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unsharePost(shareId, rootView);
+            }
+        }).show();
+    }
+
+    public void unsharePost(String shareId, View rootView){
+        firestoreDB.collection("SHARES COLLECTION").document(shareId).delete();
+        Snackbar.make(rootView, "Post unshared", Snackbar.LENGTH_SHORT).show();
+    }
+
+    public void viewProfile(String profileUid){
         Intent intent = new Intent(context, VisitProfile.class);
-        intent.putExtra("userToVisit", uid);
+        intent.putExtra("userToVisit", profileUid);
+
+        if(profileUid.equals(uid)){
+            intent = new Intent(context, Profile.class);
+        }
 
         context.startActivity(intent);
     }

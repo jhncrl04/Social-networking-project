@@ -29,7 +29,7 @@ import java.util.List;
 
 public class Notification extends AppCompatActivity {
 
-    ImageButton ibProfile, ibChatButton, ibFollowerButton, ibLikedPost;
+    ImageButton ibHome, ibProfile, ibChatButton, ibFollowerButton, ibLikedPost;
     RecyclerView todayNotifsRecycler, previousNotifsRecycler;
     TextView tvNoNotifsToday, tvNoPreviousNotifs;
 
@@ -73,6 +73,16 @@ public class Notification extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Notification.this, Chat.class);
                 startActivity(intent);
+            }
+        });
+
+        ibHome = findViewById(R.id.home_button);
+        ibHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Notification.this, Feed.class);
+                startActivity(intent);
+                finish();
             }
         });
 

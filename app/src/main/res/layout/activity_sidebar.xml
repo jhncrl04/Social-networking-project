@@ -154,7 +154,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/following_button"
+            android:id="@+id/liked_post_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="15dp"

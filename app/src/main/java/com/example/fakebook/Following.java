@@ -42,7 +42,7 @@ public class Following extends AppCompatActivity {
     View followRequestContainer;
     RecyclerView rvFollowRequest, rvFollowSuggestion;
 
-    ImageButton ivHome, ivLikes, ivNotification, ivProfile;
+    ImageButton ibChatButton, ivHome, ibLikedPost, ivNotification, ivProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +71,15 @@ public class Following extends AppCompatActivity {
 
         fetchUsersAndFollowers(uid);
 
+        ibChatButton = findViewById(R.id.chat_button);
+        ibChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Following.this, Chat.class);
+                startActivity(intent);
+            }
+        });
+
         ivHome = findViewById(R.id.home_button);
         ivHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +98,20 @@ public class Following extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
+        });
+
+        ibLikedPost = findViewById(R.id.liked_post_button);
+        ibLikedPost.setOnClickListener(v -> {
+            Intent intent = new Intent(Following.this, LikedPost.class);
+            startActivity(intent);
+            finish();
+        });
+
+        ivNotification = findViewById(R.id.notification_button);
+        ivNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(Following.this, Notification.class);
+            startActivity(intent);
+            finish();
         });
     }
 
@@ -162,7 +185,7 @@ public class Following extends AppCompatActivity {
 
                 if (!followRequestList.isEmpty()) {
                     tvFollowRequestCount.setText(String.valueOf(requestCount));
-                    followRequestContainer.setVisibility(VISIBLE);
+//                    followRequestContainer.setVisibility(VISIBLE);
                 }
             });
         });

@@ -175,9 +175,9 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@null"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/grid_outline" />
+                            android:src="@drawable/grid_fill" />
 
                         <View
                             android:layout_width="0dp"
@@ -189,9 +189,9 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@null"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/view_stacked" />
+                            android:src="@drawable/stack" />
 
                         <View
                             android:layout_width="0dp"
@@ -203,9 +203,9 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@null"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/share_vector" />
+                            android:src="@drawable/share" />
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -273,7 +273,7 @@
                 android:layout_weight="1" />
 
             <ImageButton
-                android:id="@+id/friends_button"
+                android:id="@+id/following_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@null"
@@ -287,7 +287,7 @@
                 android:layout_weight="1" />
 
             <ImageButton
-                android:id="@+id/following_button"
+                android:id="@+id/liked_post_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@null"

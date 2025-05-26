@@ -24,7 +24,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     DBHelper DB;
 
     String firstName, lastName, fullName, username, phoneNumber, profile, bio;
+    int loginAttempt = 0;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -130,11 +136,6 @@ public class MainActivity extends AppCompatActivity {
                                                         finish();
                                                     }
                                                 });
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Toast.makeText(MainActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                        Log.e("FIREBASE_LOGIN", "Login error", task.getException());
-
                                     }
                                 }
                             });

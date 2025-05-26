@@ -1,220 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#16161A"
     tools:context=".Feed">
 
-    <LinearLayout
-        android:id="@+id/header"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainFeed"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="#16161A"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingVertical="6dp"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:context=".Feed">
 
-        <TextView
-            android:id="@+id/app_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Bulsu Feed"
-            android:textColor="#2CB67D"
-            android:textSize="34sp"
-            android:textStyle="bold" />
+            android:background="#16161A"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="6dp"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            <TextView
+                android:id="@+id/app_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Bulsu Feed"
+                android:textColor="#2CB67D"
+                android:textSize="34sp"
+                android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/search_button"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginRight="15dp"
-            android:background="@null"
-            android:scaleType="centerCrop"
-            android:src="@drawable/search_vector" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-        <ImageButton
-            android:id="@+id/chat_button"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginRight="10dp"
-            android:background="@null"
-            android:scaleType="centerCrop"
-            android:src="@drawable/message_vector" />
+            <ImageButton
+                android:id="@+id/search_button"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="15dp"
+                android:background="@null"
+                android:scaleType="centerCrop"
+                android:src="@drawable/search_vector" />
 
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/chat_button"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:scaleType="centerCrop"
+                android:src="@drawable/message_vector" />
 
-    <LinearLayout
-        android:id="@+id/create_post_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="10dp"
-        app:layout_constraintTop_toBottomOf="@id/header">
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/profile_post"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/rounded_profile"
-            android:scaleType="centerCrop"
-            android:src="@drawable/default_profile" />
-
-        <Button
-            android:id="@+id/create_post_button"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/create_post_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_weight="1"
-            android:background="@drawable/transparent_bg"
-            android:paddingHorizontal="10dp"
-            android:text="What's on your mind?"
-            android:textAlignment="textStart"
-            android:textColor="#616161"
-            android:textSize="16sp" />
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            app:layout_constraintTop_toBottomOf="@id/header">
 
-        <ImageButton
-            android:id="@+id/upload_image_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@null"
-            android:scaleType="centerCrop"
-            android:src="@drawable/image_vector" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/profile_post"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded_profile"
+                android:scaleType="centerCrop"
+                android:src="@drawable/default_profile" />
 
-    <LinearLayout
-        android:id="@+id/header_body_separator"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#464646"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/create_post_layout" />
+            <Button
+                android:id="@+id/create_post_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/transparent_bg"
+                android:paddingHorizontal="10dp"
+                android:text="What's on your mind?"
+                android:textAlignment="textStart"
+                android:textColor="#616161"
+                android:textSize="16sp" />
 
-    <!--  Recycler View for posts  -->
+            <ImageButton
+                android:id="@+id/upload_image_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@null"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_vector" />
+        </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/post_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bot_nav_border"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_body_separator"
-        app:layout_constraintVertical_bias="0.0">
+        <LinearLayout
+            android:id="@+id/header_body_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#464646"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/create_post_layout" />
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <!--  Recycler View for posts  -->
 
-    <ProgressBar
-        android:id="@+id/feed_progress_bar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_body_separator" />
-
-    <!--  Nav and body line separator  -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/bot_nav_border"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:backgroundTint="#464646"
-        app:layout_constraintBottom_toTopOf="@+id/nav_bar" />
-
-    <!--  Navbar  -->
-    <LinearLayout
-        android:id="@+id/nav_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingVertical="5dp"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <View
-            android:layout_width="0dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/post_recycler_view"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".5" />
+            app:layout_constraintBottom_toTopOf="@id/bot_nav_border"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_body_separator"
+            app:layout_constraintVertical_bias="0.0">
 
-        <ImageButton
-            android:id="@+id/home_button"
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/feed_progress_bar"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@null"
-            android:padding="15dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/home_vector" />
+            android:layout_marginTop="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header_body_separator" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+        <!--  Nav and body line separator  -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bot_nav_border"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:backgroundTint="#464646"
+            app:layout_constraintBottom_toTopOf="@+id/nav_bar" />
 
-        <ImageButton
-            android:id="@+id/followers_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:padding="15dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/friends_vector" />
+        <!--  Navbar  -->
+        <LinearLayout
+            android:id="@+id/nav_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingVertical="5dp"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight=".5" />
 
-        <ImageButton
-            android:id="@+id/liked_post_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:padding="15dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/heart_vector_old" />
+            <ImageButton
+                android:id="@+id/home_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:padding="15dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/home_vector" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-        <ImageButton
-            android:id="@+id/notification_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:padding="15dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/notification_vector" />
+            <ImageButton
+                android:id="@+id/followers_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:padding="15dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/friends_vector" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-        <ImageButton
-            android:id="@+id/profile_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:padding="15dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/profile_vector" />
+            <ImageButton
+                android:id="@+id/liked_post_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:padding="15dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/heart_vector_old" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight=".5" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/notification_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:padding="15dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/notification_vector" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/profile_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:padding="15dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile_vector" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight=".5" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

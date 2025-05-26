@@ -23,11 +23,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
-            android:text="Fakebook"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Bulsu Feed"
             android:textColor="#2CB67D"
-            android:textSize="60sp"
-            android:textStyle="bold" />
+            android:textSize="50sp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

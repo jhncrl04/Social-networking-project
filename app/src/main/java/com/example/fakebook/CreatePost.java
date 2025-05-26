@@ -133,48 +133,55 @@ public class CreatePost extends AppCompatActivity {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     String uid = user.getUid();
 
-                    Date dateNow = new Date();
+                    firestoreDB.collection("USERS").document(uid).get().addOnSuccessListener(doc -> {
+                        Boolean isPostBlocked = doc.getBoolean("isPostBlocked");
+                        if (!Boolean.TRUE.equals(isPostBlocked)) {
+                            Date dateNow = new Date();
 
-                    progressBar.setVisibility(VISIBLE);
-                    buttonSubmitPost.setEnabled(false);
+                            progressBar.setVisibility(VISIBLE);
+                            buttonSubmitPost.setEnabled(false);
 
-                    DocumentReference docRef = firestoreDB.collection("POST COLLECTION").document();  // Generate unique doc ID
+                            DocumentReference docRef = firestoreDB.collection("POST COLLECTION").document();  // Generate unique doc ID
 
-                    String postId = docRef.getId();  // Get the ID
-                    Map<String, Object> newPost = new HashMap<>();
-                    newPost.put("postId", postId);    // Manually add it
-                    newPost.put("userID", uid);
-                    newPost.put("commentsCount", 0);
-                    newPost.put("likesCount", 0);
-                    newPost.put("dateCreated", new Date());
-                    newPost.put("shareCount", 0);
-                    newPost.put("content", postContent);
+                            String postId = docRef.getId();  // Get the ID
+                            Map<String, Object> newPost = new HashMap<>();
+                            newPost.put("postId", postId);    // Manually add it
+                            newPost.put("userID", uid);
+                            newPost.put("commentsCount", 0);
+                            newPost.put("likesCount", 0);
+                            newPost.put("dateCreated", new Date());
+                            newPost.put("shareCount", 0);
+                            newPost.put("content", postContent);
 
-                    if (imageBitmap != null && !imageBitmap.trim().isEmpty()) {
-                        newPost.put("imageBytes", imageBitmap);
-                    }
+                            if (imageBitmap != null && !imageBitmap.trim().isEmpty()) {
+                                newPost.put("imageBytes", imageBitmap);
+                            }
 
-                    docRef.set(newPost).addOnCompleteListener(task -> {
-                        // Hide the loader
-                        progressBar.setVisibility(GONE);
-                        buttonSubmitPost.setEnabled(true);
+                            docRef.set(newPost).addOnCompleteListener(task -> {
+                                // Hide the loader
+                                progressBar.setVisibility(GONE);
+                                buttonSubmitPost.setEnabled(true);
 
-                        if (task.isSuccessful()) {
+                                if (task.isSuccessful()) {
 
-                            Map<String, Object> newLikeDocument = new HashMap<>();
+                                    Map<String, Object> newLikeDocument = new HashMap<>();
 
-                            newLikeDocument.put("posterId", uid);
+                                    newLikeDocument.put("posterId", uid);
 
-                            firestoreDB.collection("LIKES COLLECTION").document(postId).set(newLikeDocument);
+                                    firestoreDB.collection("LIKES COLLECTION").document(postId).set(newLikeDocument);
 
-                            Intent intent = new Intent(CreatePost.this, Feed.class);
-                            intent.putExtra("postCreationStatus", "completed");
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            // Handle failure
-                            Toast.makeText(CreatePost.this, "Failed to post", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(CreatePost.this, Feed.class);
+                                    intent.putExtra("postCreationStatus", "completed");
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    // Handle failure
+                                    Toast.makeText(CreatePost.this, "Failed to post", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
+
+                        Toast.makeText(CreatePost.this, "Sorry, you're currently blocked from posting", Toast.LENGTH_SHORT).show();
                     });
                 }
             }

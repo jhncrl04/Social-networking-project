@@ -63,7 +63,7 @@ public class Profile extends AppCompatActivity {
     ViewPager2 viewPager;
     ProfilePagerAdapter pagerAdapter;
     TextView tvName, tvFollowingsCount, tvFollowersCount, tvBio;
-    ImageButton ibProfile, ibNavHome, ibNavProfile, ibCoverPhoto;
+    ImageButton ibProfile, ibNavHome, ibNavProfile, ibCoverPhoto, ibGrid, ibStack, ibShared, ibLikedPost, ibNotification, ibFollowing;
 
     SharedPreferences sharedPreferences;
 
@@ -98,6 +98,7 @@ public class Profile extends AppCompatActivity {
 
         pagerAdapter.addFragment(new GridPostFragment(user.getUid()), "Gallery");
         pagerAdapter.addFragment(new PostFragment(this, user.getUid()), "Post");
+        pagerAdapter.addFragment(new SharedPostFragment(this, user.getUid()), "Shared Post");
 
         viewPager.setAdapter(pagerAdapter);
 
@@ -117,7 +118,6 @@ public class Profile extends AppCompatActivity {
         tvBio.setText(bio);
 
         ibNavHome = findViewById(R.id.home_button);
-
         ibNavHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,7 +128,6 @@ public class Profile extends AppCompatActivity {
         });
 
         ibNavProfile = findViewById(R.id.profile_button);
-
         ibNavProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,6 +135,30 @@ public class Profile extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
+        });
+
+        ibFollowing = findViewById(R.id.following_button);
+        ibFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile.this, Following.class);
+                startActivity(intent);
+            }
+        });
+
+
+        ibLikedPost = findViewById(R.id.liked_post_button);
+        ibLikedPost.setOnClickListener(v -> {
+            Intent intent = new Intent(Profile.this, LikedPost.class);
+            startActivity(intent);
+            finish();
+        });
+
+        ibNotification = findViewById(R.id.notification_button);
+        ibNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(Profile.this, Notification.class);
+            startActivity(intent);
+            finish();
         });
 
         ibProfile.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +169,32 @@ public class Profile extends AppCompatActivity {
         });
 
         getFollowingAndFollowersCount(user.getUid(), tvFollowersCount, tvFollowingsCount);
+
+        ibGrid = findViewById(R.id.post_grid);
+        ibStack = findViewById(R.id.post_stack);
+        ibShared = findViewById(R.id.post_shared);
+
+        ibGrid.setOnClickListener(v -> {
+            viewPager.setCurrentItem(0);
+            ibGrid.setImageResource(R.drawable.grid_fill);
+
+            ibStack.setImageResource(R.drawable.stack);
+            ibShared.setImageResource(R.drawable.share);
+        });   // GridPostFragment
+        ibStack.setOnClickListener(v -> {
+            viewPager.setCurrentItem(1);
+            ibStack.setImageResource(R.drawable.stack_fill);
+
+            ibGrid.setImageResource(R.drawable.grid_outline);
+            ibShared.setImageResource(R.drawable.share);
+        });  // PostFragment
+        ibShared.setOnClickListener(v -> {
+            viewPager.setCurrentItem(2);
+            ibShared.setImageResource(R.drawable.share_fill);
+
+            ibStack.setImageResource(R.drawable.stack);
+            ibGrid.setImageResource(R.drawable.grid_outline);
+        }); // SharedPostFragment
     }
 
     public void getFollowingAndFollowersCount(String uid, TextView tvFollowersCount, TextView tvFollowingsCount) {

@@ -53,7 +53,7 @@ public class VisitProfile extends AppCompatActivity {
     ViewPager2 viewPager;
     ProfilePagerAdapter pagerAdapter;
     TextView tvName, tvFollowingsCount, tvFollowersCount, tvBio;
-    ImageButton ibProfile, ibNavHome, ibNavProfile, ibCoverPhoto;
+    ImageButton ibProfile, ibNavHome, ibNavProfile, ibCoverPhoto, ibGrid, ibStack, ibShared, ibLikedPost, ibFollowing, ibNotification;
 
     SharedPreferences sharedPreferences;
     String profileToView;
@@ -88,6 +88,7 @@ public class VisitProfile extends AppCompatActivity {
 
         pagerAdapter.addFragment(new GridPostFragment(profileToView), "Gallery");
         pagerAdapter.addFragment(new PostFragment(this, profileToView), "Post");
+        pagerAdapter.addFragment(new SharedPostFragment(this, profileToView), "Shared Post");
 
         viewPager.setAdapter(pagerAdapter);
 
@@ -105,7 +106,6 @@ public class VisitProfile extends AppCompatActivity {
         });
 
         ibNavProfile = findViewById(R.id.profile_button);
-
         ibNavProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,7 +122,58 @@ public class VisitProfile extends AppCompatActivity {
             }
         });
 
+        ibFollowing = findViewById(R.id.following_button);
+        ibFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VisitProfile.this, Following.class);
+                startActivity(intent);
+            }
+        });
+
+
+        ibLikedPost = findViewById(R.id.liked_post_button);
+        ibLikedPost.setOnClickListener(v -> {
+            Intent intent = new Intent(VisitProfile.this, LikedPost.class);
+            startActivity(intent);
+            finish();
+        });
+
+        ibNotification = findViewById(R.id.notification_button);
+        ibNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(VisitProfile.this, Notification.class);
+            startActivity(intent);
+            finish();
+        });
+
+
         getFollowingAndFollowersCount(profileToView, tvFollowersCount, tvFollowingsCount);
+
+        ibGrid = findViewById(R.id.post_grid);
+        ibStack = findViewById(R.id.post_stack);
+        ibShared = findViewById(R.id.post_shared);
+
+        ibGrid.setOnClickListener(v -> {
+            viewPager.setCurrentItem(0);
+            ibGrid.setImageResource(R.drawable.grid_fill);
+
+            ibStack.setImageResource(R.drawable.stack);
+            ibShared.setImageResource(R.drawable.share);
+        });   // GridPostFragment
+        ibStack.setOnClickListener(v -> {
+            viewPager.setCurrentItem(1);
+            ibStack.setImageResource(R.drawable.stack_fill);
+
+            ibGrid.setImageResource(R.drawable.grid_outline);
+            ibShared.setImageResource(R.drawable.share);
+        });  // PostFragment
+        ibShared.setOnClickListener(v -> {
+            viewPager.setCurrentItem(2);
+            ibShared.setImageResource(R.drawable.share_fill);
+
+            ibStack.setImageResource(R.drawable.stack);
+            ibGrid.setImageResource(R.drawable.grid_outline);
+        }); // SharedPostFragment
     }
 
     public void getFollowingAndFollowersCount(String uid, TextView tvFollowersCount, TextView tvFollowingsCount) {

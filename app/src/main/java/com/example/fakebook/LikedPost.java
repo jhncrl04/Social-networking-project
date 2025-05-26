@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,12 +25,14 @@ import java.util.List;
 
 public class LikedPost extends AppCompatActivity {
 
-    ImageButton buttonProfile, ibChatButton, ibFollowerButton;
+    ImageButton buttonProfile, ibChatButton, ibFollowerButton, ibNotification, ibHome;
     FirebaseFirestore firestoreDB;
     RecyclerView postsRecyclerView;
     PostAdapter adapter;
     List<Post> postList = new ArrayList<>();
     ProgressBar progressBar;
+
+    CoordinatorLayout rootview;
 
     FirebaseAuth user = FirebaseAuth.getInstance();
     String uid = user.getUid();
@@ -49,7 +52,9 @@ public class LikedPost extends AppCompatActivity {
         postsRecyclerView.setHasFixedSize(true);
         postsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new PostAdapter(this, postList, getSupportFragmentManager());
+
+        rootview = findViewById(R.id.main);
+        adapter = new PostAdapter(this, postList, getSupportFragmentManager(), rootview);
         postsRecyclerView.setAdapter(adapter);
 
         firestoreDB = firestoreDB.getInstance();
@@ -78,12 +83,29 @@ public class LikedPost extends AppCompatActivity {
         });
 
         ibFollowerButton = findViewById(R.id.followers_button);
-
         ibFollowerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LikedPost.this, Following.class);
                 startActivity(intent);
+            }
+        });
+
+        ibNotification = findViewById(R.id.notification_button);
+        ibNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(LikedPost.this, Notification.class);
+            startActivity(intent);
+            finish();
+        });
+
+
+        ibHome = findViewById(R.id.home_button);
+        ibHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LikedPost.this, Feed.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
