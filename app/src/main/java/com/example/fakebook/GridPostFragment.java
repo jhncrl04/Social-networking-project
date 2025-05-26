@@ -1,5 +1,7 @@
 package com.example.fakebook;
 
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,11 +29,19 @@ import java.util.List;
 public class GridPostFragment extends Fragment {
     RecyclerView gridRecyclerView;
     GridPostAdapter gridPostAdapter;
+    View layoutNoPost;
+
     List<Post> postList = new ArrayList<>();
 
     FirebaseFirestore firestoreDB;
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
+
+    String uid;
+
+    public GridPostFragment(String userToLoad) {
+        this.uid = userToLoad;
+    }
 
     @Nullable
     @Override
@@ -43,6 +54,8 @@ public class GridPostFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
+        layoutNoPost = view.findViewById(R.id.no_post_label);
+
         gridRecyclerView = view.findViewById(R.id.grid_recycler);
 
         gridRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
@@ -51,16 +64,16 @@ public class GridPostFragment extends Fragment {
         gridPostAdapter = new GridPostAdapter(postList);
         gridRecyclerView.setAdapter(gridPostAdapter);
 
-        fetchPosts();
+        fetchPosts(uid);
 
         return view;
     }
 
-    private void fetchPosts() {
+    private void fetchPosts(String uid) {
         postList.clear();
 
         firestoreDB.collection("POST COLLECTION")
-                .whereEqualTo("userID", user.getUid())
+                .whereEqualTo("userID", uid)
                 .orderBy("dateCreated", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -70,6 +83,12 @@ public class GridPostFragment extends Fragment {
                             Post post = doc.toObject(Post.class);
                             postList.add(post);
                         }
+                    }
+
+                    if(postList.size() == 0){
+                        layoutNoPost.setVisibility(View.VISIBLE);
+                    } else {
+                        layoutNoPost.setVisibility(View.GONE);
                     }
 
                     gridPostAdapter.notifyDataSetChanged();

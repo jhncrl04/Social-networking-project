@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    tools:context=".Notification">
+
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#16161A"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="6dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/app_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Bulsu Feed"
+                android:textColor="#2CB67D"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/search_button"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="15dp"
+                android:background="@null"
+                android:scaleType="centerCrop"
+                android:src="@drawable/search_vector" />
+
+            <ImageButton
+                android:id="@+id/chat_button"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:scaleType="centerCrop"
+                android:src="@drawable/message_vector" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/page_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Notifications"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header" />
+
+        <TextView
+            android:id="@+id/today_notif_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="10dp"
+            android:text="Today"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/page_label" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/today_notif_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:backgroundTint="#464646"
+            app:layout_constraintTop_toBottomOf="@id/today_notif_label" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/today_notif_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:paddingHorizontal="12dp"
+            app:layout_constraintTop_toBottomOf="@id/today_notif_separator" />
+
+        <TextView
+            android:id="@+id/no_today_notifs_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="No new notification."
+            android:textColor="@color/secondary_white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/today_notif_label" />
+
+        <TextView
+            android:id="@+id/previous_notif_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="30dp"
+            android:text="Previous"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/today_notif_recyclerview" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/previous_notif_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:backgroundTint="#464646"
+            app:layout_constraintTop_toBottomOf="@id/previous_notif_label" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/previous_notif_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="12dp"
+            app:layout_constraintTop_toBottomOf="@id/previous_notif_separator" />
+
+        <TextView
+            android:id="@+id/no_previous_notifs_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="No previous notification."
+            android:textColor="@color/secondary_white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/previous_notif_label" />
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/chat_container_1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="100dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/textView23">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="100dp"-->
+<!--                    android:layout_height="100dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <androidx.cardview.widget.CardView-->
+<!--                        android:layout_width="75dp"-->
+<!--                        android:layout_height="75dp"-->
+<!--                        app:cardCornerRadius="100dp">-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/imageView13"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:srcCompat="@drawable/yes_king"-->
+<!--                            android:scaleType="centerCrop"/>-->
+<!--                    </androidx.cardview.widget.CardView>-->
+<!--                </LinearLayout>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView19"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="47dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:gravity="bottom"-->
+<!--                        android:text="Leynard Drake Hernandez accepts your request."-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="16sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView20"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="53dp"-->
+<!--                        android:text="Just now"-->
+<!--                        android:textColor="#BAB9B9" />-->
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
+
+        <!--    <LinearLayout-->
+        <!--        android:id="@+id/chat_container_2"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="100dp"-->
+        <!--        android:orientation="horizontal"-->
+        <!--        app:layout_constraintTop_toBottomOf="@id/chat_container_1">-->
+
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="100dp"-->
+        <!--            android:layout_height="100dp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:orientation="vertical">-->
+
+        <!--            <androidx.cardview.widget.CardView-->
+        <!--                android:layout_width="75dp"-->
+        <!--                android:layout_height="75dp"-->
+        <!--                app:cardCornerRadius="100dp">-->
+
+        <!--                <ImageView-->
+        <!--                    android:id="@+id/imageView13"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:scaleType="centerCrop"-->
+        <!--                    app:srcCompat="@drawable/keurt" />-->
+        <!--            </androidx.cardview.widget.CardView>-->
+        <!--        </LinearLayout>-->
+
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:orientation="vertical">-->
+
+        <!--            <TextView-->
+        <!--                android:id="@+id/textView19"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="47dp"-->
+        <!--                android:layout_marginTop="0dp"-->
+        <!--                android:gravity="bottom"-->
+        <!--                android:text="Keurt Bryan likes your post."-->
+        <!--                android:textColor="@color/white"-->
+        <!--                android:textSize="16sp" />-->
+
+        <!--            <TextView-->
+        <!--                android:id="@+id/textView20"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="53dp"-->
+        <!--                android:text="1 hour ago"-->
+        <!--                android:textColor="#BAB9B9" />-->
+        <!--        </LinearLayout>-->
+        <!--    </LinearLayout>-->
+
+        <!--    <TextView-->
+        <!--        android:id="@+id/textView33"-->
+        <!--        android:layout_width="wrap_content"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:text="That's all for now."-->
+        <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--        app:layout_constraintEnd_toEndOf="parent"-->
+        <!--        app:layout_constraintStart_toStartOf="parent"-->
+        <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+        <!--  Nav and body line separator  -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bot_nav_border"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:backgroundTint="#464646"
+            app:layout_constraintBottom_toTopOf="@+id/nav_bar" />
+
+        <!--  Navbar  -->
+        <LinearLayout
+            android:id="@+id/nav_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingVertical="5dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight=".5" />
+
+            <ImageButton
+                android:id="@+id/home_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:padding="15dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/home_vector" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/followers_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:padding="15dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/friends_vector" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/liked_post_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:padding="15dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/heart_vector_old" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/notification_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:padding="15dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/notification_vector" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/profile_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:padding="15dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile_vector" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight=".5" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>

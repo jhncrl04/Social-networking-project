@@ -59,4 +59,8 @@ public class Account {
     public void setUserID(String userID){
         this.userID = userID;
     }
+
+    public void setFollowerCount(int followerCount){
+        this.followerCount = followerCount;
+    }
 }

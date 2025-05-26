@@ -3,6 +3,7 @@ package com.example.fakebook;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,10 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountViewHolder> {
     private List<Account> accountList;
@@ -68,7 +71,10 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
             holder.ivProfile.setImageBitmap(bitmap);
         }
 
+        String followerCount = String.valueOf(account.getFollowerCount());
+
         holder.tvName.setText(account.getFullname());
+        holder.tvFollowerCount.setText(followerCount + " Followers");
 
         holder.buttonFollow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,9 +94,13 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
                     // Already following – update mutuals
                     doc.update("mutuals", FieldValue.arrayUnion(currentUserId));
                     doc.update("requestedFollow", FieldValue.arrayRemove(currentUserId));
+
+                    sendFollowNotif(profileUid, currentUserId, "followBack");
                 } else {
                     // Not followed – send follow request
                     doc.update("requestedFollow", FieldValue.arrayUnion(currentUserId));
+                    addToFollowing(profileUid, currentUserId, firestore);
+                    sendFollowNotif(profileUid, currentUserId, "followRequest");
                 }
 
                 // Regardless, add to followedBy to mark as "following"
@@ -99,6 +109,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
                 // If doc does not exist, create it
                 doc.set(new HashMap<String, Object>() {{
                     put("followedBy", new ArrayList<>(List.of(currentUserId)));
+                    put("following", new ArrayList<>(List.of(profileUid)));
                     put("requestedFollow", new ArrayList<>());
                     put("mutuals", new ArrayList<>());
                 }});
@@ -114,8 +125,35 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
         }
     }
 
+    public void addToFollowing(String profileUid, String currentUid, FirebaseFirestore firestore){
+        DocumentReference doc = firestore.collection("FOLLOWERS").document(currentUid);
+        doc.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                doc.update("following", FieldValue.arrayUnion(profileUid));
+            }
+        });
+    }
+
     @Override
     public int getItemCount(){
         return accountList.size();
+    }
+
+    public void sendFollowNotif(String receiver, String notifSender, String followStatus){
+        if(notifSender.equals(receiver)){
+            return;
+        }
+
+        Date date = new Date();
+
+        Map<String, Object> newNotif = new HashMap<>();
+        newNotif.put("notifReceiver", receiver);
+        newNotif.put("notifSender", notifSender);
+        newNotif.put("notifDate", date);
+        newNotif.put("notifType", followStatus);
+
+        firestoreDB.collection("NOTIFICATIONS").document().set(newNotif).addOnSuccessListener(doc -> {
+            Log.d("notification sent", "follow notification sent");
+        });
     }
 }

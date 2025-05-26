@@ -150,6 +150,10 @@ public class Chatbox extends AppCompatActivity {
         firestoreDB.collection("CHAT COLLECTION").add(newMessage)
                 .addOnSuccessListener(documentReference -> {
                     Log.d("Firestore", "Message sent");
+
+                    String messageId = documentReference.getId();
+
+                    sendMessageNotif(callerChatReceiverId, userId, messageId);
                 })
                 .addOnFailureListener(e -> {
                     Log.e("Firestore", "Error sending message", e);
@@ -170,5 +174,25 @@ public class Chatbox extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Log.e("Firestore", "Error sending message", e);
                 });
+    }
+
+    public void sendMessageNotif(String receiver, String currentUser, String messageId){
+
+        if(currentUser.equals(receiver)){
+            return;
+        }
+
+        Date date = new Date();
+
+        Map<String, Object> newNotif = new HashMap<>();
+        newNotif.put("notifReceiver", receiver);
+        newNotif.put("notifSender", currentUser);
+        newNotif.put("messageId", messageId);
+        newNotif.put("notifType", "messageReceived");
+        newNotif.put("notifDate", date);
+
+        firestoreDB.collection("NOTIFICATIONS").document().set(newNotif).addOnSuccessListener(doc -> {
+            Log.d("notification sent", "comment notification sent");
+        });
     }
 }

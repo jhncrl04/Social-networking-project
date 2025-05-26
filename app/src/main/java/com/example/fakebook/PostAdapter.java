@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,9 +21,12 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,13 +46,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     private FirebaseAuth user = FirebaseAuth.getInstance();
     private String uid = user.getUid();
     private FirebaseFirestore firestoreDB;
+    private FragmentManager fragmentManager;
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         public ImageView ivPostImage;
         public TextView contentText, dateText;
         public Button buttonAuthorName;
         public LinearLayout imageContainer;
-        public ImageButton ibLikeButton, ibProfileButton, ibPostMenu;
+        public ImageButton ibLikeButton, ibProfileButton, ibPostMenu, ibComment;
 
         public PostViewHolder(View itemView) {
             super(itemView);
@@ -61,12 +66,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             ibLikeButton = itemView.findViewById(R.id.like_button);
             ibProfileButton = itemView.findViewById(R.id.profile_button);
             ibPostMenu = itemView.findViewById(R.id.post_menu);
+            ibComment = itemView.findViewById(R.id.comment_button);
         }
     }
 
-    public PostAdapter(Context context, List<Post> posts) {
+    public PostAdapter(Context context, List<Post> posts, FragmentManager fragmentManager) {
         this.context = context;
         this.postList = posts;
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -90,7 +97,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         holder.buttonAuthorName.setText(post.getAuthorName());
 
-        if (!post.getPosterProfile().isEmpty()) {
+        if (post.getPosterProfile() != null && !post.getPosterProfile().isEmpty()) {
             Bitmap profileBitmap = displayPosterProfile(post.getPosterProfile());
             holder.ibProfileButton.setImageBitmap(profileBitmap);
         } else {
@@ -162,6 +169,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });
 
+        // comment functionalities
+        holder.ibComment.setOnClickListener(v -> {
+            CommentBottomSheetFragment bottomSheet = new CommentBottomSheetFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("postId", post.getPostId()); // Pass actual post ID
+            bundle.putString("posterId", post.getUserID());
+            bottomSheet.setArguments(bundle);
+
+            bottomSheet.show(fragmentManager, bottomSheet.getTag());
+        });
+
         // Post menu functionality
         holder.ibPostMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,7 +189,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
                 if (post.getUserID().equals(uid)) {
                     popup.getMenuInflater().inflate(R.menu.self_post_menu, popup.getMenu());
-                }else{
+                } else {
                     popup.getMenuInflater().inflate(R.menu.post_menu, popup.getMenu());
                 }
 
@@ -221,6 +240,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 popup.show();
             }
         });
+
+        holder.buttonAuthorName.setOnClickListener(v -> {
+            viewProfile(post.getUserID());
+        });
+
+        holder.ibProfileButton.setOnClickListener(v -> {
+            viewProfile(post.getUserID());
+        });
     }
 
     @Override
@@ -228,7 +255,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return postList.size();
     }
 
-    public void processMenuAction(String postId, String uid, String actionToDo, String posterId, String authorFirstName){
+    public void viewProfile(String uid){
+        Intent intent = new Intent(context, VisitProfile.class);
+        intent.putExtra("userToVisit", uid);
+
+        context.startActivity(intent);
+    }
+
+    public void processMenuAction(String postId, String uid, String actionToDo, String posterId, String authorFirstName) {
 
         Intent intent = null;
 
@@ -317,9 +351,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
                     // Also clean up likes collection
                     // FirebaseFirestore.getInstance()
-                            // .collection("LIKES COLLECTION")
-                            // .document(postId)
-                            // .delete();
+                    // .collection("LIKES COLLECTION")
+                    // .document(postId)
+                    // .delete();
                 })
                 .addOnFailureListener(e -> {
                     Log.e("PostMenu", "Failed to delete post", e);
@@ -378,6 +412,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     callback.onResult("unliked");
                 } else {
                     processPostAction("likePost", postId, userId);
+                    sendLikeNotif(postId, posterId, userId);
+
                     callback.onResult("liked");
                 }
             } else {
@@ -402,6 +438,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         } else if (action.equals("unlikePost")) {
             doc.update("likedBy", FieldValue.arrayRemove(userId));
         }
+    }
+
+    public void sendLikeNotif(String postId, String posterId, String userId) {
+
+        if(userId.equals(posterId)){
+            return;
+        }
+
+        Date date = new Date();
+
+        Map<String, Object> newNotif = new HashMap<>();
+        newNotif.put("notifReceiver", posterId);
+        newNotif.put("notifSender", userId);
+        newNotif.put("postId", postId);
+        newNotif.put("notifType", "postLiked");
+        newNotif.put("notifDate", date);
+
+        firestoreDB.collection("NOTIFICATIONS").document().set(newNotif).addOnSuccessListener(doc -> {
+            Log.d("notification sent", "like notification sent");
+        });
     }
 
 }

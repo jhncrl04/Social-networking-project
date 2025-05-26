@@ -25,6 +25,7 @@ public class PostFragment extends Fragment {
     RecyclerView postRecyclerView;
     PostAdapter postAdapter;
     List<Post> postList = new ArrayList<>();
+    View layoutNoPost;
 
     FirebaseFirestore firestoreDB;
     FirebaseAuth firebaseAuth;
@@ -33,8 +34,9 @@ public class PostFragment extends Fragment {
 
     Context context;
 
-    public PostFragment(Context context){
+    public PostFragment(Context context, String uid){
         this.context = context;
+        this.uid = uid;
     }
 
     @Nullable
@@ -47,21 +49,22 @@ public class PostFragment extends Fragment {
         firestoreDB = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        uid = user.getUid();
 
         postRecyclerView = view.findViewById(R.id.post_recycler_view);
         postRecyclerView.setHasFixedSize(false);
         postRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        postAdapter = new PostAdapter(context, postList);
+        layoutNoPost = view.findViewById(R.id.no_post_label);
+
+        postAdapter = new PostAdapter(context, postList, getParentFragmentManager());
         postRecyclerView.setAdapter(postAdapter);
 
-        fetchPosts();
+        fetchPosts(uid);
 
         return view;
     }
 
-    private void fetchPosts() {
+    private void fetchPosts(String uid) {
         firestoreDB.collection("POST COLLECTION").whereEqualTo("userID", uid).orderBy("dateCreated", Query.Direction.DESCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
             int totalPosts = queryDocumentSnapshots.size();
 
@@ -89,13 +92,19 @@ public class PostFragment extends Fragment {
                                 String posterProfile = doc.getString("profilePic");
 
                                 post.setAuthorName(fullName);
-                                if(!posterProfile.isEmpty()){
+                                if(posterProfile != null && !posterProfile.isEmpty()){
                                     post.setPosterProfile(posterProfile);
                                 }
                             }
 
                             if(hiddenBy == null || !hiddenBy.contains(uid)){
                                 postList.add(post);
+                            }
+
+                            if(postList.size() == 0){
+                                layoutNoPost.setVisibility(View.VISIBLE);
+                            } else {
+                                layoutNoPost.setVisibility(View.GONE);
                             }
 
                             postAdapter.notifyDataSetChanged();

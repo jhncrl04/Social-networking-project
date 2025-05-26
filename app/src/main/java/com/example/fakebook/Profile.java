@@ -45,6 +45,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import org.w3c.dom.Text;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,11 +60,9 @@ public class Profile extends AppCompatActivity {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     FirebaseUser user = firebaseAuth.getCurrentUser();
 
-    ProgressBar progressBar;
-
     ViewPager2 viewPager;
     ProfilePagerAdapter pagerAdapter;
-    TextView tvName, tvFriendsCount, tvFollowersCount, tvBio;
+    TextView tvName, tvFollowingsCount, tvFollowersCount, tvBio;
     ImageButton ibProfile, ibNavHome, ibNavProfile, ibCoverPhoto;
 
     SharedPreferences sharedPreferences;
@@ -80,15 +80,12 @@ public class Profile extends AppCompatActivity {
             return insets;
         });
 
-
         sharedPreferences = getSharedPreferences("USER_SESSION", Context.MODE_PRIVATE);
-
-        progressBar = findViewById(R.id.profile_progress_bar);
 
         firestoreDB = firestoreDB.getInstance();
 
         tvName = findViewById(R.id.profile_name);
-        tvFriendsCount = findViewById(R.id.friends_count);
+        tvFollowingsCount = findViewById(R.id.followings_count);
         tvFollowersCount = findViewById(R.id.followers_count);
         tvBio = findViewById(R.id.bio_text);
 
@@ -99,20 +96,25 @@ public class Profile extends AppCompatActivity {
 
         pagerAdapter = new ProfilePagerAdapter(this);
 
-        pagerAdapter.addFragment(new GridPostFragment(), "Gallery");
-        pagerAdapter.addFragment(new PostFragment(this), "Post");
+        pagerAdapter.addFragment(new GridPostFragment(user.getUid()), "Gallery");
+        pagerAdapter.addFragment(new PostFragment(this, user.getUid()), "Post");
 
         viewPager.setAdapter(pagerAdapter);
 
-        if(profilePic != null && !profilePic.isEmpty()){
+        if (profilePic != null && !profilePic.isEmpty()) {
             byte[] imageBytes = Base64.decode(profilePic, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 
             ibProfile.setImageBitmap(bitmap);
         }
 
+        String bio = sharedPreferences.getString("SESSION_BIO", null);
+        if (bio == null) {
+            bio = "User have not set bio yet.";
+        }
+
         tvName.setText(sharedPreferences.getString("SESSION_FULLNAME", null));
-        tvBio.setText(sharedPreferences.getString("SESSION_BIO", null));
+        tvBio.setText(bio);
 
         ibNavHome = findViewById(R.id.home_button);
 
@@ -142,6 +144,26 @@ public class Profile extends AppCompatActivity {
                 uploadImage();
             }
         });
+
+        getFollowingAndFollowersCount(user.getUid(), tvFollowersCount, tvFollowingsCount);
+    }
+
+    public void getFollowingAndFollowersCount(String uid, TextView tvFollowersCount, TextView tvFollowingsCount) {
+        firestoreDB.collection("FOLLOWERS").document(uid).get().addOnSuccessListener(
+                doc -> {
+                    List<String> followings = (List<String>) doc.get("following");
+                    List<String> followers = (List<String>) doc.get("followedBy");
+
+                    if(followings != null && !followings.isEmpty()){
+                        String followingCount = String.valueOf(followings.size());
+                        tvFollowingsCount.setText(followingCount);
+                    }
+
+                    if(followers != null && !followings.isEmpty()){
+                        String followerCount = String.valueOf(followers.size());
+                        tvFollowersCount.setText(followerCount);
+                    }
+                });
     }
 
     private void uploadImage() {
@@ -196,8 +218,7 @@ public class Profile extends AppCompatActivity {
 
                             Map<String, Object> newProfile = new HashMap<>();
                             newProfile.put("profilePic", imageBitmap);
-                            firestoreDB.collection("USERS").document(user.getUid()).update("profilePic", imageBitmap) .addOnSuccessListener(aVoid -> {
-                                        progressBar.setVisibility(GONE);
+                            firestoreDB.collection("USERS").document(user.getUid()).update("profilePic", imageBitmap).addOnSuccessListener(aVoid -> {
                                         Toast.makeText(Profile.this, "Profile picture updated", Toast.LENGTH_SHORT).show();
 
                                         sharedPreferences.edit().putString("SESSION_PROFILE", imageBitmap).apply();

@@ -126,6 +126,8 @@ public class Following extends AppCompatActivity {
                             List<String> followedBy = (List<String>) followerDoc.get("followedBy");
                             List<String> mutuals = (List<String>) followerDoc.get("mutuals");
 
+                            account.setFollowerCount(followedBy.size());
+
                             if (followedBy != null && followedBy.contains(uid)) {
                                 isFollowed = true;
                                 break;
